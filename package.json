@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dnwang1011/2dots1line.git"
+    "url": "git+https://github.com/dnwang1011/2dots1lineDemo.git"
   },
   "keywords": [
     "education",
@@ -20,9 +20,9 @@
   "author": "dnwang1011",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dnwang1011/2dots1line/issues"
+    "url": "https://github.com/dnwang1011/2dots1lineDemo/issues"
   },
-  "homepage": "https://github.com/dnwang1011/2dots1line#readme",
+  "homepage": "https://github.com/dnwang1011/2dots1lineDemo#readme",
   "dependencies": {
     "serve": "^14.2.1"
   }

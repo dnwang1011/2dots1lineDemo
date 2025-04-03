@@ -4,7 +4,7 @@
 
 ## 在线演示
 
-访问 [https://2dots1line.vercel.app](https://2dots1line.vercel.app) 查看在线演示。
+访问 [https://2dots1linedemo.vercel.app](https://2dots1linedemo.vercel.app) 查看在线演示。
 
 ## 界面说明
 
@@ -59,8 +59,8 @@
 
 1. 克隆仓库：
    ```
-   git clone https://github.com/dnwang1011/2dots1line.git
-   cd 2dots1line
+   git clone https://github.com/dnwang1011/2dots1lineDemo.git
+   cd 2dots1lineDemo
    ```
 
 2. 安装依赖：
@@ -93,4 +93,4 @@
 
 ## 许可
 
-MIT 
+MIT
