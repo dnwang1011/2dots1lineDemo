@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2dots1line - 留学成长伙伴</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Global reset for box-sizing */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8f9fa;
+    }
+
+    .app-container {
+      flex: 1;
+      position: relative;
+      padding: 0;
+      padding-bottom: 80px;
+      background-color: #f8f9fa;
+      width: 100%;
+      max-width: 480px; /* Match other pages */
+      margin: 0 auto;
+    }
+
+    /* Add main content frame */
+    .main-content-frame {
+      background-color: white;
+      margin: 0 auto;
+      width: 100%;
+      min-height: 100%;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      padding-bottom: 24px;
+    }
+
+    header {
+      padding: 24px 20px;
+      background-color: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .hero-card {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 24px 20px; /* Consistent horizontal padding */
+      margin: 0 0 24px 0; /* Remove top margin for full-width effect */
+    }
+    
+    .hero-card h2 {
+      color: white;
+      font-size: 28px; /* Larger font */
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    .hero-card p {
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 24px; /* More space before journey stages */
+      font-size: 16px;
+    }
+    
+    .journey-stage {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 20px 20px; /* Increased horizontal padding */
+      margin-bottom: 12px;
+      position: relative;
+      backdrop-filter: blur(5px); /* Add a slight blur effect for glass-like appearance */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      transition: all 0.2s ease; /* Smooth hover effect */
+    }
+    
+    .journey-stage:hover {
+      background-color: rgba(255, 255, 255, 0.25); /* Slightly brighter on hover */
+      transform: translateY(-2px); /* Slight lift effect */
+    }
+    
+    .journey-stage i {
+      color: #4CD964; /* Green for completed checkmarks */
+    }
+    
+    .journey-stage i.fa-spinner {
+      color: #FFCC00; /* Yellow for in-progress */
+      animation: spin 1.5s linear infinite; /* Add spinning animation */
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .journey-stage:last-child {
+      margin-bottom: 0;
+    }
+    
+    .journey-stage::before {
+      content: '';
+      position: absolute;
+      left: 22px;
+      top: 100%;
+      height: 12px;
+      width: 2px;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .journey-stage:last-child::before {
+      display: none;
+    }
+    
+    .journey-num {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-color: white;
+      color: var(--primary-color);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    
+    .sparkle-card {
+      display: flex;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    
+    .sparkle-img {
+      width: 100px;
+      background-color: var(--accent-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .sparkle-content {
+      flex: 1;
+      padding: 16px;
+    }
+    
+    .sparkle-content h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    
+    .sparkle-caption {
+      font-size: 12px;
+      color: var(--light-text);
+      margin-bottom: 8px;
+    }
+    
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .insight-tag {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      font-size: 12px;
+      border-radius: 12px;
+      padding: 4px 8px;
+    }
+    
+    .next-steps {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    
+    .steps-header {
+      background-color: var(--accent-color);
+      padding: 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .steps-header h3 {
+      margin: 0;
+      color: var(--primary-color);
+    }
+    
+    .step-item {
+      display: flex;
+      padding: 16px;
+      border-bottom: 1px solid #eee;
+      align-items: center;
+    }
+    
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    
+    .step-icon {
+      width: 36px;
+      height: 36px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 12px;
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .step-content p {
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+    
+    .feature-grid {
+      padding: 0 20px 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .feature-card {
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(79, 116, 227, 0.15);
+    }
+    
+    .feature-icon {
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1);
+    }
+    
+    .badge {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Add these fancy effects for other elements */
+    .recent-items {
+      padding: 24px 20px;
+    }
+    
+    .sparkle-card {
+      transition: all 0.3s ease;
+    }
+    
+    .sparkle-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    }
+    
+    .insight-tag {
+      transition: all 0.2s ease;
+    }
+    
+    .insight-tag:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .next-steps {
+      margin: 0 20px 24px 20px; /* Add horizontal margins */
+      transition: all 0.3s ease;
+    }
+    
+    .next-steps:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .step-item {
+      transition: background-color 0.2s ease;
+    }
+    
+    .step-item:hover {
+      background-color: #f9f9ff;
+    }
+    
+    /* Styles for the new action cards */
+    .action-card {
+      display: flex;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      gap: 16px;
+    }
+    
+    .action-card.primary {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+    }
+    
+    .action-card.insights {
+      background-color: #f0f7ff;
+      color: var(--primary-color);
+    }
+    
+    .action-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    
+    .action-card.primary .action-icon {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    .action-card.insights .action-icon {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .action-content {
+      flex: 1;
+    }
+    
+    .action-content h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+    
+    .action-content p {
+      margin-bottom: 12px;
+      opacity: 0.9;
+      font-size: 14px;
+    }
+    
+    .btn-light {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: var(--primary-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .insights-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    .insight-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      position: relative;
+    }
+    
+    .insight-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--light-text);
+      font-size: 14px;
+    }
+    
+    .insight-card h3 {
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+    
+    .insight-link {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      color: var(--primary-color);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Advisor prompt styles */
+    .advisor-prompt {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      background-color: rgba(79, 116, 227, 0.1);
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .advisor-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .advisor-message p {
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Essay carousel styles */
+    .content-section {
+      margin: 24px 0;
+    }
+
+    .carousel-container {
+      overflow-x: auto;
+      padding: 4px 0;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    .carousel-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+
+    .essay-carousel, .insights-carousel, .case-carousel {
+      display: flex;
+      gap: 16px;
+      padding: 0 20px;
+    }
+
+    .essay-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .card-tag-new {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: var(--primary-color);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 12px;
+    }
+
+    .essay-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .essay-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--light-text);
+      margin-bottom: 12px;
+    }
+
+    .essay-preview {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .essay-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .essay-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .status-dot.completed {
+      background-color: #27ae60;
+    }
+
+    .status-dot.in-progress {
+      background-color: #f1c40f;
+    }
+
+    .status-dot.pending {
+      background-color: #3498db;
+    }
+
+    .btn-text {
+      color: var(--primary-color);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* School list styles */
+    .school-list-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin: 0 20px;
+      position: relative;
+    }
+
+    .update-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 12px;
+      color: var(--primary-color);
+    }
+
+    .school-category {
+      margin-bottom: 16px;
+    }
+
+    .category-label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--light-text);
+    }
+
+    .school-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .school-chip {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .match-rate {
+      background-color: rgba(79, 116, 227, 0.1);
+      color: var(--primary-color);
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .full-width {
+      width: 100%;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    /* Insight bubbles styles */
+    .insight-bubble {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      min-width: 260px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .bubble-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .bubble-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .bubble-content p {
+      font-size: 14px;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+
+    /* Case card styles */
+    .case-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      min-width: 280px;
+    }
+
+    .case-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .case-tag {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .case-university {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .case-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .case-preview {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      display: block;
+      text-align: center;
+      background-color: rgba(79, 116, 227, 0.1);
+      color: var(--primary-color);
+      border: none;
+      padding: 8px 0;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Floating AI Chatbot styles */
+    .floating-ai-container {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      margin: 0 20px 24px;
+      position: relative;
+      overflow: hidden;
+      border: none; /* Remove any borders */
+    }
+    
+    .ai-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .ai-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    
+    .ai-name {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+    
+    .ai-status {
+      font-size: 12px;
+      color: #27ae60;
+    }
+    
+    .ai-summary {
+      padding: 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .ai-highlight {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .ai-questions {
+      padding: 16px;
+    }
+    
+    .question-item {
+      margin-bottom: 16px;
+      background-color: var(--accent-color);
+      border-radius: 12px;
+      padding: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .question-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .question-item:hover {
+      background-color: rgba(79, 116, 227, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .question-text {
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    .question-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .option-btn {
+      background-color: white;
+      border: 1px solid #dfe6e9;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option-btn:hover {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    /* Updates section styles */
+    .update-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 0 20px 16px;
+      border: none !important; /* Stronger border removal */
+      background-color: #f8f9fa; /* Match parent background */
+    }
+    
+    .update-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: none !important; /* Stronger border removal */
+    }
+    
+    .update-card-wide {
+      grid-column: 1 / -1;
+    }
+    
+    .update-header {
+      padding: 12px 16px;
+      background-color: var(--accent-color);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .update-header h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .update-content {
+      padding: 16px;
+    }
+    
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    
+    .metric-row .label {
+      color: var(--light-text);
+    }
+    
+    .metric-row .value {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .metric-row .change {
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 6px;
+    }
+    
+    .metric-row .change.positive {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: #27ae60;
+    }
+    
+    .metric-row .change.negative {
+      background-color: rgba(214, 48, 49, 0.1);
+      color: #d63031;
+    }
+    
+    .update-chart {
+      height: 120px;
+      margin-top: 16px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding-top: 16px;
+      border-top: 1px solid #f0f0f0;
+    }
+    
+    .chart-bar {
+      flex: 1;
+      background-color: var(--accent-color);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+    }
+    
+    .chart-bar::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 10px;
+      color: var(--light-text);
+    }
+    
+    .strength-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .strength-label {
+      width: 120px;
+      font-size: 14px;
+    }
+    
+    .strength-bar-bg {
+      flex: 1;
+      height: 8px;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .strength-bar {
+      height: 100%;
+      background-color: var(--primary-color);
+      border-radius: 4px;
+    }
+    
+    .strength-value {
+      width: 36px;
+      text-align: right;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    
+    .essay-preview-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 240px; /* Set a minimum height */
+    }
+    
+    .essay-preview-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-bottom: 8px; /* Reduce space before button */
+    }
+    
+    .essay-preview-content p {
+      margin-bottom: 8px; /* Reduce space between paragraphs */
+    }
+    
+    .essay-preview-content p:last-child {
+      margin-top: 8px; /* Adjust space for the italic text */
+    }
+
+    /* Ensure buttons have enough space */
+    .essay-preview-card .btn-primary {
+      /* Rely on parent padding and flex for positioning */
+    }
+
+    /* Add padding to the direct parent of the button row */
+    .update-content.essay-preview-card {
+        padding-bottom: 16px; /* Add bottom padding */
+    }
+
+    /* Section title styles */
+    .index-section-title {
+      padding: 0 20px;
+      margin: 24px 0 16px;
+      font-size: 18px;
+      font-weight: 600;
+      border: none !important; /* Stronger border removal */
+    }
+
+    /* Timeline styles */
+    .timeline-container {
+      padding: 0 20px 16px;
+      border: none !important;
+    }
+    
+    .timeline-item {
+      display: flex;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    
+    .timeline-date {
+      width: 60px;
+      font-size: 12px;
+      color: var(--light-text);
+      text-align: right;
+      padding-right: 12px;
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+    
+    .timeline-content {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 12px;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      border: none !important; /* Stronger border removal */
+    }
+    
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border-left: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      top: 12px;
+      left: -6px;
+      transform: rotate(45deg);
+    }
+    
+    .timeline-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    
+    .timeline-desc {
+      font-size: 13px;
+      color: var(--light-text);
+    }
+    
+    .timeline-line {
+      position: absolute;
+      left: 66px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color: transparent; /* Make the line invisible */
+    }
+    
+    .timeline-dot {
+      position: absolute;
+      left: 61px;
+      top: 12px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      z-index: 1;
+    }
+
+    /* Bottom Navigation styles */
+    .bottom-nav-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      z-index: 1000;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .bottom-nav {
+      width: 100%;
+      max-width: 480px; /* Match app container width */
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--light-text);
+      font-size: 12px;
+      padding: 4px 0;
+    }
+
+    .nav-item.active {
+      color: var(--primary-color);
+    }
+
+    .nav-item i {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .nav-label {
+      font-size: 12px;
+    }
+
+    /* Adjust main content to prevent overlap with bottom nav */
+    .app-container {
+      padding-bottom: 80px !important;
+    }
+
+    .main-content-frame {
+      padding-bottom: 80px;
+    }
+
+    /* Mood slider styles */
+    .mood-slider {
+      padding: 10px 0;
+    }
+
+    .mood-range {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .mood-range input {
+      flex: 1;
+      margin: 0 10px;
+      -webkit-appearance: none;
+      height: 6px;
+      background: linear-gradient(to right, #ff6b6b, #ffdd59, #48dbfb);
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .mood-range input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid var(--primary-color);
+      cursor: pointer;
+    }
+
+    .mood-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--light-text);
+    }
+
+    .mood-range i {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="main-content-frame">
+      <header>
+        <h1>2dots1line</h1>
+        <p>点亮潜能，连接梦想</p>
+      </header>
+
+      <!-- Floating AI Chatbot -->
+      <div class="floating-ai-container">
+        <div class="ai-header">
+          <div class="ai-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div>
+            <div class="ai-name">智慧顾问</div>
+            <div class="ai-status">在线</div>
+          </div>
+        </div>
+        
+        <div class="ai-summary">
+          <p><strong>王女士，您好！</strong> 基于小明持续的数据积累，我们观察到：</p>
+          <p>1. <span class="ai-highlight">突出的科创潜力</span>：小明在科学探索和问题解决方面展现出非凡的热情与能力。近期科学竞赛的优异表现不仅是阶段性成果，更为未来申请顶尖理工院校奠定了坚实基础。</p>
+          <p>2. <span class="ai-highlight">持续成长的叙事</span>：我们正逐步构建一个围绕小明"以科创改变世界"的核心叙事。目前留学适配度评估的显著提升（85%），反映了他与目标院校的契合度日益增强。</p>
+          <p>3. <span class="ai-highlight">未来发展蓝图</span>：长期来看，我们将重点深化其在人工智能领域的探索，并拓展跨学科项目经验。短期建议关注MIT AI研讨会，这将是提升背景和激发兴趣的宝贵机会。</p>
+          <p>4. <span class="ai-highlight">教育投入显效</span>：本月教育活动ROI提升了18%，这表明当前的策略有效促进了小明的核心能力发展，我们将持续优化资源配置。</p>
+        </div>
+        
+        <div class="ai-questions">
+          <div class="question-item" onclick="window.location.href='advisor.html'">
+            <div class="question-text">今天的小明，心情指数是？</div>
+            <div class="mood-slider">
+              <div class="mood-range">
+                <span><i class="far fa-sad-tear"></i></span>
+                <input type="range" min="1" max="5" value="3" class="slider" id="moodSlider">
+                <span><i class="far fa-laugh-beam"></i></span>
+              </div>
+              <div class="mood-labels">
+                <span>压力山大</span>
+                <span>平静专注</span>
+                <span>充满能量</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="question-item" onclick="window.location.href='advisor.html'">
+            <div class="question-text">除了学业成就，现在最想发展的一项能力是？</div>
+            <div class="question-options">
+              <button class="option-btn">创造力</button>
+              <button class="option-btn">社交沟通</button>
+              <button class="option-btn">心理韧性</button>
+              <button class="option-btn">领导才能</button>
+            </div>
+          </div>
+          
+          <div class="question-item" onclick="window.location.href='advisor.html'">
+            <div class="question-text">小明的兴趣探索和学业准备之间，现在平衡得如何？</div>
+            <div class="question-options">
+              <button class="option-btn">需要更多自由探索</button>
+              <button class="option-btn">平衡得不错</button>
+              <button class="option-btn">想更专注于核心学科</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="index-section-title">核心数据更新</h2>
+      
+      <!-- Updates Section -->
+      <div class="update-grid">
+        <!-- ROI Card -->
+        <div class="update-card update-card-wide">
+          <div class="update-header">
+            <h3>教育投入ROI分析</h3>
+          </div>
+          <div class="update-content">
+            <div class="metric-row">
+              <div class="label">本月综合ROI指数</div>
+              <div>
+                <span class="value">86</span>
+                <span class="change positive">+18%</span>
+              </div>
+            </div>
+            <div class="metric-row">
+              <div class="label">时间投入回报率</div>
+              <div>
+                <span class="value">92</span>
+                <span class="change positive">+12%</span>
+              </div>
+            </div>
+            <div class="metric-row">
+              <div class="label">资金投入回报率</div>
+              <div>
+                <span class="value">78</span>
+                <span class="change positive">+5%</span>
+              </div>
+            </div>
+            
+            <div class="update-chart">
+              <div class="chart-bar" style="height: 60%;" data-label="3月"></div>
+              <div class="chart-bar" style="height: 70%;" data-label="4月"></div>
+              <div class="chart-bar" style="height: 65%;" data-label="5月"></div>
+              <div class="chart-bar" style="height: 90%;" data-label="6月"></div>
+              <div class="chart-bar" style="height: 100%;" data-label="7月"></div>
+              <div class="chart-bar" style="height: 85%;" data-label="8月"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Strengths Update -->
+        <div class="update-card">
+          <div class="update-header">
+            <h3>能力特质更新</h3>
+          </div>
+          <div class="update-content">
+            <div class="strength-row">
+              <div class="strength-label">科研能力</div>
+              <div class="strength-bar-bg">
+                <div class="strength-bar" style="width: 92%;"></div>
+              </div>
+              <div class="strength-value">92%</div>
+            </div>
+            <div class="strength-row">
+              <div class="strength-label">创新思维</div>
+              <div class="strength-bar-bg">
+                <div class="strength-bar" style="width: 88%;"></div>
+              </div>
+              <div class="strength-value">88%</div>
+            </div>
+            <div class="strength-row">
+              <div class="strength-label">学术表现</div>
+              <div class="strength-bar-bg">
+                <div class="strength-bar" style="width: 95%;"></div>
+              </div>
+              <div class="strength-value">95%</div>
+            </div>
+            <div class="strength-row">
+              <div class="strength-label">领导能力</div>
+              <div class="strength-bar-bg">
+                <div class="strength-bar" style="width: 75%;"></div>
+              </div>
+              <div class="strength-value">75%</div>
+            </div>
+            <div class="strength-row">
+              <div class="strength-label">沟通表达</div>
+              <div class="strength-bar-bg">
+                <div class="strength-bar" style="width: 82%;"></div>
+              </div>
+              <div class="strength-value">82%</div>
+            </div>
+            
+            <a href="story-system.html" class="btn-primary" style="display: block; text-align: center; margin-top: 16px;">查看完整能力图谱</a>
+          </div>
+        </div>
+        
+        <!-- School Matching -->
+        <div class="update-card">
+          <div class="update-header">
+            <h3>留学适配度更新</h3>
+          </div>
+          <div class="update-content">
+            <div class="metric-row">
+              <div class="label">综合适配度</div>
+              <div>
+                <span class="value">85%</span>
+                <span class="change positive">+13%</span>
+              </div>
+            </div>
+            
+            <p style="font-size: 13px; color: var(--light-text); margin: 12px 0;">最新匹配的前3所学校：</p>
+            
+            <div class="strength-row">
+              <div class="strength-label">卡内基梅隆</div>
+              <div class="strength-bar-bg">
+                <div class="strength-bar" style="width: 94%;"></div>
+              </div>
+              <div class="strength-value">94%</div>
+            </div>
+            <div class="strength-row">
+              <div class="strength-label">MIT</div>
+              <div class="strength-bar-bg">
+                <div class="strength-bar" style="width: 87%;"></div>
+              </div>
+              <div class="strength-value">87%</div>
+            </div>
+            <div class="strength-row">
+              <div class="strength-label">康奈尔</div>
+              <div class="strength-bar-bg">
+                <div class="strength-bar" style="width: 92%;"></div>
+              </div>
+              <div class="strength-value">92%</div>
+            </div>
+            
+            <a href="abroad-advisor.html" class="btn-primary" style="display: block; text-align: center; margin-top: 16px;">查看完整匹配报告</a>
+          </div>
+        </div>
+        
+        <!-- Essay Preview -->
+        <div class="update-card update-card-wide">
+          <div class="update-header">
+            <h3>最新文书进展</h3>
+          </div>
+          <div class="update-content essay-preview-card">
+            <div class="essay-preview-content">
+              <p>"...我沉浸在问题中的那一刻，时间仿佛静止了。屏幕上的代码构成了一个复杂的拼图，而我需要找到最后一块拼图。这不仅仅是一个编程比赛，对我而言，它代表着我思维边界的扩展..."</p>
+              <p>"...当我的算法最终解决了这个被认为不可能在给定时间内解决的问题时，我明白了：真正的突破来自于质疑常规思维模式，并有勇气探索未知领域..."</p>
+              <p style="font-style: italic; margin-top: 12px; text-align: right;">——摘自MIT申请文书《挑战边界》</p>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 13px; color: var(--primary-color);">
+                <i class="fas fa-check-circle"></i> AI分析已完成
+              </div>
+              <a href="story-system.html" class="btn-primary">继续编辑</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <h2 class="index-section-title">关键活动时间线</h2>
+      
+      <!-- Timeline Section -->
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">今天</div>
+          <div class="timeline-content">
+            <div class="timeline-title">科学竞赛成绩发布</div>
+            <div class="timeline-desc">小明在全国青少年科学竞赛中获得一等奖，这将显著提升其MIT和斯坦福申请竞争力</div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">8月5日</div>
+          <div class="timeline-content">
+            <div class="timeline-title">完成MIT Essay初稿</div>
+            <div class="timeline-desc">已提交AI分析，建议在"挑战"部分增加更多具体例子以提升文书说服力</div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">8月12日</div>
+          <div class="timeline-content">
+            <div class="timeline-title">留学适配度评估更新</div>
+            <div class="timeline-desc">基于最新科学竞赛成绩，MIT适配度从78%提升至87%，新增卡内基梅隆大学匹配</div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">8月20日</div>
+          <div class="timeline-content">
+            <div class="timeline-title">推荐人选定</div>
+            <div class="timeline-desc">已确认数学老师张晓和科研导师王教授将作为小明的推荐人</div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">8月28日</div>
+          <div class="timeline-content">
+            <div class="timeline-title">活动规划更新</div>
+            <div class="timeline-desc">建议参加9月的人工智能研讨会，可与MIT申请方向高度匹配</div>
+          </div>
+        </div>
+      </div>
+      
+      <h2 class="index-section-title">高价值活动推荐</h2>
+      
+      <!-- Activity Recommendations -->
+      <div class="carousel-container">
+        <div class="essay-carousel">
+          <div class="essay-card">
+            <div class="card-tag-new">新</div>
+            <h3 class="essay-title">MIT AI研讨会</h3>
+            <div class="essay-meta">
+              <span><i class="fas fa-calendar-alt"></i> 9月15-17日</span>
+              <span><i class="fas fa-clock"></i> 15小时</span>
+            </div>
+            <div class="essay-preview">
+              线上研讨会，由MIT计算机科学教授主持。参与者将研究最新AI模型并完成一个小型项目。
+            </div>
+            <div class="essay-footer">
+              <div class="essay-status">
+                <div class="status-dot completed"></div>
+                <span>匹配度: 96%</span>
+              </div>
+              <a href="explore.html" class="btn-text">查看详情</a>
+            </div>
+          </div>
+          
+          <div class="essay-card">
+            <div class="card-tag-new">热门</div>
+            <h3 class="essay-title">全国青少年科研展</h3>
+            <div class="essay-meta">
+              <span><i class="fas fa-calendar-alt"></i> 10月5-8日</span>
+              <span><i class="fas fa-clock"></i> 4天</span>
+            </div>
+            <div class="essay-preview">
+              展示你的科研项目成果，与全国顶尖科学爱好者交流。获奖者将获得与大学教授合作的机会。
+            </div>
+            <div class="essay-footer">
+              <div class="essay-status">
+                <div class="status-dot completed"></div>
+                <span>匹配度: 94%</span>
+              </div>
+              <a href="explore.html" class="btn-text">查看详情</a>
+            </div>
+          </div>
+          
+          <div class="essay-card">
+            <div class="card-tag-new">推荐</div>
+            <h3 class="essay-title">跨学科创新挑战赛</h3>
+            <div class="essay-meta">
+              <span><i class="fas fa-calendar-alt"></i> 9月-11月</span>
+              <span><i class="fas fa-clock"></i> 10周</span>
+            </div>
+            <div class="essay-preview">
+              结合计算机科学与生物学知识，开发解决实际问题的创新方案。非常适合展示跨领域整合能力。
+            </div>
+            <div class="essay-footer">
+              <div class="essay-status">
+                <div class="status-dot completed"></div>
+                <span>匹配度: 92%</span>
+              </div>
+              <a href="explore.html" class="btn-text">查看详情</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav-container">
+    <div class="bottom-nav">
+      <a href="index.html" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <div class="nav-label">首页</div>
+      </a>
+      <a href="advisor.html" class="nav-item">
+        <i class="fas fa-comment-dots"></i>
+        <div class="nav-label">智慧顾问</div>
+      </a>
+      <a href="story-system.html" class="nav-item">
+        <i class="fas fa-book"></i>
+        <div class="nav-label">成长叙事</div>
+      </a>
+      <a href="deliverables.html" class="nav-item">
+        <i class="fas fa-file-alt"></i>
+        <div class="nav-label">教育攻略</div>
+      </a>
+      <a href="abroad-advisor.html" class="nav-item">
+        <i class="fas fa-globe-asia"></i>
+        <div class="nav-label">留学军师</div>
+      </a>
+      <a href="explore.html" class="nav-item">
+        <i class="fas fa-compass"></i>
+        <div class="nav-label">探索</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html> 

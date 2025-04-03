@@ -1,0 +1,8 @@
+This is a placeholder for an image file. In an actual implementation, this would be:
+
+- A 80x80 pixel image
+- Used in the resource card components
+- Show relevant imagery for the resource topic (e.g., science experiments, educational activities)
+- Have rounded corners and fit the UI color scheme
+
+Since we can't create an actual JPG here, the UI is designed to handle missing images by showing the background color. 

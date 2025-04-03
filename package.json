@@ -1,0 +1,29 @@
+{
+  "name": "2dots1line-ui",
+  "version": "1.0.0",
+  "description": "2dots1line UI Demo for SPP",
+  "main": "index.html",
+  "scripts": {
+    "dev": "serve",
+    "build": "echo 'No build step required'",
+    "start": "serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnwang1011/2dots1line.git"
+  },
+  "keywords": [
+    "education",
+    "ui",
+    "2dots1line"
+  ],
+  "author": "dnwang1011",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dnwang1011/2dots1line/issues"
+  },
+  "homepage": "https://github.com/dnwang1011/2dots1line#readme",
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+} 

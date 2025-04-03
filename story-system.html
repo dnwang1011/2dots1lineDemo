@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人成长叙事 - 2dots1line</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .tabs-container {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      z-index: 10;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .tab {
+      padding: 16px 20px;
+      white-space: nowrap;
+      color: var(--light-text);
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .tab.active {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+      right: 20px;
+      height: 3px;
+      background-color: var(--primary-color);
+      border-radius: 3px 3px 0 0;
+    }
+    
+    .tab-content {
+      padding: 20px;
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .upload-area {
+      border: 2px dashed var(--accent-color);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .upload-area:hover {
+      border-color: var(--primary-color);
+      background-color: rgba(79, 116, 227, 0.05);
+    }
+    
+    .upload-icon {
+      font-size: 32px;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+    }
+    
+    .story-block {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .story-header {
+      padding: 16px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .story-date {
+      font-size: 14px;
+      color: var(--light-text);
+    }
+    
+    .story-content {
+      padding: 16px;
+    }
+    
+    .story-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .story-tag {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 12px;
+    }
+    
+    .ai-comment {
+      background-color: #f8f9ff;
+      border-left: 3px solid var(--primary-color);
+      padding: 12px 16px;
+      margin-top: 16px;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+    }
+    
+    .related-stories {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #f0f0f0;
+    }
+    
+    .related-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--light-text);
+    }
+    
+    .related-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .related-link {
+      font-size: 13px;
+      color: var(--primary-color);
+      background-color: var(--accent-color);
+      padding: 4px 10px;
+      border-radius: 12px;
+      text-decoration: none;
+    }
+    
+    .trait-chart {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .chart-placeholder {
+      height: 250px;
+      background-color: #f5f8ff;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 16px 0;
+    }
+    
+    .trait-progress {
+      margin-top: 20px;
+    }
+    
+    .trait-item {
+      margin-bottom: 16px;
+    }
+    
+    .trait-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background-color: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-level {
+      height: 100%;
+      border-radius: 4px;
+    }
+    
+    .collection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    .collection-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    
+    .collection-header {
+      padding: 16px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .collection-content {
+      padding: 16px;
+    }
+    
+    .collection-footer {
+      padding: 12px 16px;
+      background-color: #f9f9f9;
+      border-top: 1px solid #eee;
+      font-size: 14px;
+      color: var(--light-text);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .milestone-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    
+    .milestone-header {
+      padding: 16px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      font-weight: 600;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .milestone-content {
+      padding: 16px;
+    }
+    
+    .insights-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .insights-icon {
+      width: 40px;
+      height: 40px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 12px;
+    }
+    
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .filter-chip {
+      background-color: white;
+      border: 1px solid #eee;
+      color: var(--light-text);
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+    
+    .filter-chip.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    /* Personal Statement Section */
+    .personal-statement-section {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .version-selector {
+      display: flex;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .version-selector::-webkit-scrollbar {
+      display: none;
+    }
+
+    .version-tab {
+      padding: 8px 16px;
+      background-color: var(--accent-color);
+      border-radius: 20px;
+      margin-right: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .version-tab.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .essay-section {
+      margin-bottom: 16px;
+    }
+
+    .essay-text {
+      background-color: #f9f9f9;
+      padding: 16px;
+      border-radius: 8px;
+      font-style: italic;
+      margin-top: 8px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .essay-text::before {
+      content: '"';
+      font-size: 40px;
+      color: #ddd;
+      position: absolute;
+      top: -10px;
+      left: 10px;
+    }
+
+    .trait-highlight {
+      background-color: rgba(108, 92, 231, 0.1);
+      padding: 0 2px;
+      border-bottom: 2px solid var(--secondary-color);
+    }
+
+    .highlight {
+      background-color: rgba(79, 116, 227, 0.1);
+      padding: 0 2px;
+    }
+
+    .ai-analysis {
+      margin-top: 16px;
+      padding: 16px;
+      background-color: var(--accent-color);
+      border-radius: 8px;
+    }
+
+    .analysis-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+
+    .app-container {
+      padding-bottom: 80px; /* Add padding to prevent content from being hidden under bottom nav */
+    }
+
+    /* Essay Gallery Styles */
+    .essay-gallery {
+      margin-bottom: 24px;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .essay-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    
+    .essay-card {
+      background-color: white;
+      border: 1px solid #eee;
+      border-radius: var(--border-radius);
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .essay-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    
+    .essay-card.active {
+      border-color: var(--primary-color);
+      border-width: 2px;
+      box-shadow: 0 4px 12px rgba(79, 116, 227, 0.15);
+    }
+    
+    .essay-card-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--light-text);
+      margin-bottom: 8px;
+    }
+    
+    .essay-type {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .essay-title {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--dark-text);
+    }
+    
+    .essay-preview {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .essay-card-footer {
+      border-top: 1px solid #f5f5f5;
+      padding-top: 12px;
+      font-size: 12px;
+    }
+    
+    .essay-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    /* Essay Editor Styles */
+    .essay-editor {
+      display: none; /* Initially hidden, will be shown when a card is clicked */
+    }
+    
+    .active-editor .essay-gallery {
+      display: none;
+    }
+    
+    .active-editor .essay-editor {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .editor-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-text {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      padding: 8px 0;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .btn-text:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h2>个人成长叙事</h2>
+    </header>
+    
+    <div class="tabs-container">
+      <div class="tabs">
+        <div class="tab active" data-tab="growth-notes">成长笔记</div>
+        <div class="tab" data-tab="insights">智慧洞察</div>
+        <div class="tab" data-tab="traits">特质图谱</div>
+        <div class="tab" data-tab="collections">素材集锦</div>
+        <div class="tab" data-tab="personal-statement">个性陈述</div>
+      </div>
+    </div>
+    
+    <!-- 成长笔记标签页 -->
+    <div class="tab-content active" id="growth-notes-tab">
+      <div class="upload-area">
+        <div class="upload-icon">
+          <i class="fas fa-plus-circle"></i>
+        </div>
+        <h3>分享新的成长瞬间</h3>
+        <p>记录一个关于小明的新故事、成就或观察</p>
+      </div>
+      
+      <div class="filter-chips">
+        <div class="filter-chip active">全部</div>
+        <div class="filter-chip">学术</div>
+        <div class="filter-chip">社交</div>
+        <div class="filter-chip">特长</div>
+        <div class="filter-chip">挑战</div>
+      </div>
+      
+      <div class="story-block">
+        <div class="story-header">
+          <h3>科学竞赛的突破</h3>
+          <span class="story-date">2023年6月12日</span>
+        </div>
+        <div class="story-content">
+          <p>小明在全市科学竞赛中解决了一道之前从未见过的难题，他的解题方法非常独特。评委对他的创新思维给予了高度评价。</p>
+          
+          <div class="story-tags">
+            <span class="story-tag">问题解决能力</span>
+            <span class="story-tag">创新思维</span>
+            <span class="story-tag">学术成就</span>
+          </div>
+          
+          <div class="ai-comment">
+            <strong>AI洞察:</strong> 小明展现出卓越的创造性问题解决能力，这种能力在科学研究和工程领域非常宝贵。他不仅能应对挑战，还能找到独特的解决方案，这表明他有很强的分析思考能力和创新潜力。
+          </div>
+          
+          <div class="related-stories">
+            <div class="related-title">相关成长记录</div>
+            <div class="related-links">
+              <a href="#" class="related-link">数学竞赛经历</a>
+              <a href="#" class="related-link">自主科学实验</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="story-block">
+        <div class="story-header">
+          <h3>自主完成的科学项目</h3>
+          <span class="story-date">2023年5月3日</span>
+        </div>
+        <div class="story-content">
+          <p>小明自己设计了一个关于植物生长的实验，并坚持记录了两周的数据。他每天观察植物的变化，记录不同条件下植物的生长情况，并尝试分析结果。</p>
+          
+          <div class="story-tags">
+            <span class="story-tag">自主学习</span>
+            <span class="story-tag">科学探索</span>
+            <span class="story-tag">坚持</span>
+          </div>
+          
+          <div class="ai-comment">
+            <strong>AI洞察:</strong> 小明的这个项目展现了他强烈的科学好奇心和自驱力。自主设计实验、坚持记录数据的能力对于未来的科研工作非常重要。特别值得注意的是他的耐心和对细节的关注，这些品质对于严谨的科学研究至关重要。
+          </div>
+        </div>
+      </div>
+      
+      <div class="story-block">
+        <div class="story-header">
+          <h3>乐于帮助的一天</h3>
+          <span class="story-date">2023年4月15日</span>
+        </div>
+        <div class="story-content">
+          <p>小明主动帮助新来的同学适应学校环境，向老师和同学介绍他，并帮助他找到教室和认识其他同学。放学后还邀请他一起参加了学校的科学俱乐部活动。</p>
+          
+          <div class="story-tags">
+            <span class="story-tag">同理心</span>
+            <span class="story-tag">社交能力</span>
+            <span class="story-tag">领导力</span>
+          </div>
+          
+          <div class="ai-comment">
+            <strong>AI洞察:</strong> 这个故事展示了小明的社交智能和同理心，这些是顶尖大学非常看重的软技能。他不仅关注自己的学术发展，还能关注他人的需求并主动提供帮助，这种品质在团队合作和领导力方面非常宝贵。
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 智慧洞察标签页 -->
+    <div class="tab-content" id="insights-tab">
+      <div class="milestone-card">
+        <div class="milestone-header">
+          <h3>AI检测到的模式</h3>
+        </div>
+        <div class="milestone-content">
+          <div class="insights-header">
+            <div class="insights-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <div>
+              <h3>强烈的科学倾向</h3>
+              <p>检测到多个关于科学探索的故事</p>
+            </div>
+          </div>
+          <p>小明展现出对科学的强烈兴趣，特别是在实验设计和数据分析方面。这种倾向通常与成功的研究型科学家、工程师或医生相关。建议进一步探索这些领域的机会，如参加更高级的科学竞赛或寻找实验室实习机会。</p>
+        </div>
+      </div>
+      
+      <div class="milestone-card">
+        <div class="milestone-header">
+          <h3>情绪预测</h3>
+        </div>
+        <div class="milestone-content">
+          <div class="insights-header">
+            <div class="insights-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div>
+              <h3>积极成就感</h3>
+              <p>从多个故事中检测到的主导情绪</p>
+            </div>
+          </div>
+          <p>小明在解决挑战性问题和完成自主项目时表现出高度的满足感和成就感。这表明他是一个内在驱动型的学习者，更倾向于追求内在满足而非外部奖励。这种特质与学术研究和创新领域的成功高度相关。</p>
+        </div>
+      </div>
+      
+      <div class="milestone-card">
+        <div class="milestone-header">
+          <h3>时间轴分析</h3>
+        </div>
+        <div class="milestone-content">
+          <div class="insights-header">
+            <div class="insights-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+              <h3>持续成长的创造力</h3>
+              <p>基于6个月内的故事分析</p>
+            </div>
+          </div>
+          <p>从时间轴来看，小明的创造性思维正在稳步提升，特别是在将所学知识应用到实际问题中的能力。同时，他的社交技能也开始显现，这是全面发展的积极信号。</p>
+          
+          <h4 style="margin-top: 16px;">关键时刻</h4>
+          <ul>
+            <li><strong>2023年4月:</strong> 首次展示社交领导能力</li>
+            <li><strong>2023年5月:</strong> 自主科学探索的开始</li>
+            <li><strong>2023年6月:</strong> 创造性问题解决能力的突破性证明</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="milestone-card">
+        <div class="milestone-header">
+          <h3>建议的成长方向</h3>
+        </div>
+        <div class="milestone-content">
+          <div class="insights-header">
+            <div class="insights-icon">
+              <i class="fas fa-compass"></i>
+            </div>
+            <div>
+              <h3>平衡发展领导力</h3>
+              <p>基于现有特质的下一步建议</p>
+            </div>
+          </div>
+          <p>为了进一步提升小明的综合素质，建议在保持科学探索热情的同时，有意识地培养团队协作和领导能力。这将帮助他在申请顶尖大学时展示全面发展的优势。</p>
+          
+          <h4 style="margin-top: 16px;">具体建议</h4>
+          <ul>
+            <li>参与需要团队合作的科学竞赛</li>
+            <li>在科学俱乐部中担任组织或领导角色</li>
+            <li>尝试向他人讲解或教授科学概念</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 特质图谱标签页 -->
+    <div class="tab-content" id="traits-tab">
+      <div class="trait-chart">
+        <h3>小明的核心特质分布</h3>
+        <div class="chart-placeholder">
+          <i class="fas fa-chart-radar fa-3x" style="color: var(--primary-color);"></i>
+        </div>
+        <p>基于您分享的成长叙事，我们检测到以下核心特质:</p>
+        
+        <div class="trait-progress">
+          <div class="trait-item">
+            <div class="trait-header">
+              <strong>创造性思维</strong>
+              <span>非常突出</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-level" style="width: 92%; background-color: var(--primary-color);"></div>
+            </div>
+          </div>
+          
+          <div class="trait-item">
+            <div class="trait-header">
+              <strong>问题解决能力</strong>
+              <span>很强</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-level" style="width: 85%; background-color: var(--secondary-color);"></div>
+            </div>
+          </div>
+          
+          <div class="trait-item">
+            <div class="trait-header">
+              <strong>科学探索精神</strong>
+              <span>突出</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-level" style="width: 78%; background-color: var(--tertiary-color);"></div>
+            </div>
+          </div>
+          
+          <div class="trait-item">
+            <div class="trait-header">
+              <strong>坚持与毅力</strong>
+              <span>良好</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-level" style="width: 72%; background-color: #6c5ce7;"></div>
+            </div>
+          </div>
+          
+          <div class="trait-item">
+            <div class="trait-header">
+              <strong>社交与领导能力</strong>
+              <span>发展中</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-level" style="width: 60%; background-color: #fd79a8;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="trait-chart">
+        <h3>特质发展趋势</h3>
+        <div class="chart-placeholder">
+          <i class="fas fa-chart-line fa-3x" style="color: var(--primary-color);"></i>
+        </div>
+        <p>过去6个月中，小明在以下方面有明显进步:</p>
+        <ul>
+          <li>科学探索能力 (+15%)</li>
+          <li>社交领导力 (+12%)</li>
+          <li>创造性思维 (+8%)</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- 素材集锦标签页 -->
+    <div class="tab-content" id="collections-tab">
+      <h3>AI自动归类的成长故事集</h3>
+      <p>基于您分享的故事，我们自动组织了以下主题集:</p>
+      
+      <div class="collection-grid">
+        <div class="collection-card">
+          <div class="collection-header">
+            <i class="fas fa-flask"></i> 科学探索集
+          </div>
+          <div class="collection-content">
+            <p>收集了小明在科学领域的探索、实验和成就</p>
+            <ul>
+              <li>植物生长实验</li>
+              <li>科学竞赛突破</li>
+              <li>科学俱乐部活动</li>
+            </ul>
+          </div>
+          <div class="collection-footer">
+            <span>3个故事</span>
+            <a href="#">查看详情</a>
+          </div>
+        </div>
+        
+        <div class="collection-card">
+          <div class="collection-header">
+            <i class="fas fa-lightbulb"></i> 创新思维集
+          </div>
+          <div class="collection-content">
+            <p>展示小明独特的思考方式和创造性解决问题的能力</p>
+            <ul>
+              <li>数学竞赛独特解法</li>
+              <li>创意科学项目设计</li>
+              <li>课堂上的创新想法</li>
+            </ul>
+          </div>
+          <div class="collection-footer">
+            <span>3个故事</span>
+            <a href="#">查看详情</a>
+          </div>
+        </div>
+        
+        <div class="collection-card">
+          <div class="collection-header">
+            <i class="fas fa-users"></i> 社交与领导力
+          </div>
+          <div class="collection-content">
+            <p>记录小明在人际交往和团队合作中的表现</p>
+            <ul>
+              <li>帮助新同学</li>
+              <li>小组项目协调</li>
+            </ul>
+          </div>
+          <div class="collection-footer">
+            <span>2个故事</span>
+            <a href="#">查看详情</a>
+          </div>
+        </div>
+        
+        <div class="collection-card">
+          <div class="collection-header">
+            <i class="fas fa-trophy"></i> 成就与荣誉
+          </div>
+          <div class="collection-content">
+            <p>小明获得的各类奖项和认可</p>
+            <ul>
+              <li>科学竞赛奖项</li>
+              <li>学校表彰</li>
+            </ul>
+          </div>
+          <div class="collection-footer">
+            <span>2个故事</span>
+            <a href="#">查看详情</a>
+          </div>
+        </div>
+      </div>
+      
+      <h3 style="margin-top: 24px;">推荐申请素材</h3>
+      <p>以下故事集可用于不同类型的申请:</p>
+      
+      <div class="collection-card" style="margin-bottom: 16px;">
+        <div class="collection-header">
+          <i class="fas fa-graduation-cap"></i> 科学特长申请集
+        </div>
+        <div class="collection-content">
+          <p>非常适合申请工程、计算机科学或自然科学专业</p>
+          <p>包含了展示小明科学才能、创新思维和解决问题能力的核心故事</p>
+          <div class="filter-chips">
+            <div class="filter-chip active">科学竞赛突破</div>
+            <div class="filter-chip active">植物生长实验</div>
+            <div class="filter-chip active">创新解题方法</div>
+          </div>
+        </div>
+        <div class="collection-footer">
+          <span>推荐院校: MIT, 斯坦福, 加州理工</span>
+          <button class="btn btn-outline">生成申请文书</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Personal Statement Content -->
+    <div class="tab-content" id="personal-statement-tab">
+      <div class="personal-statement-section">
+        <h2>个性陈述智慧助手</h2>
+        <p class="section-subtitle">基于收集的成长叙事生成的大学申请个性陈述</p>
+        
+        <!-- Essay gallery section -->
+        <div class="essay-gallery">
+          <div class="section-header">
+            <h3>我的文书库</h3>
+            <button class="btn btn-primary">
+              <i class="fas fa-plus"></i> 创建新文书
+            </button>
+          </div>
+          
+          <div class="essay-cards">
+            <div class="essay-card active" data-essay="science">
+              <div class="essay-card-header">
+                <div class="essay-type">通用申请</div>
+                <div class="essay-date">更新于 2023/07/08</div>
+              </div>
+              <h3 class="essay-title">科学探索之旅</h3>
+              <p class="essay-preview">当我站在实验台前，小心翼翼地记录着每一个数据变化，我体会到了真正的科学探索精神...</p>
+              <div class="essay-card-footer">
+                <div class="essay-meta">
+                  <span><i class="fas fa-check-circle"></i> 完成度: 95%</span>
+                  <span><i class="fas fa-star"></i> 推荐用于: STEM专业</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="essay-card" data-essay="challenge">
+              <div class="essay-card-header">
+                <div class="essay-type">斯坦福申请</div>
+                <div class="essay-date">更新于 2023/06/22</div>
+              </div>
+              <h3 class="essay-title">挑战与成长</h3>
+              <p class="essay-preview">面对全市科学竞赛的未知难题，我感到前所未有的紧张。但正是这种挑战，让我有机会展现自己的创新思维...</p>
+              <div class="essay-card-footer">
+                <div class="essay-meta">
+                  <span><i class="fas fa-check-circle"></i> 完成度: 80%</span>
+                  <span><i class="fas fa-star"></i> 推荐用于: 斯坦福大学</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="essay-card" data-essay="innovation">
+              <div class="essay-card-header">
+                <div class="essay-type">MIT申请</div>
+                <div class="essay-date">更新于 2023/06/15</div>
+              </div>
+              <h3 class="essay-title">创新思维的力量</h3>
+              <p class="essay-preview">在解决问题时，我总是尝试跳出常规思维的框架。当我设计植物生长实验时，没有按照课本上的方法...</p>
+              <div class="essay-card-footer">
+                <div class="essay-meta">
+                  <span><i class="fas fa-check-circle"></i> 完成度: 75%</span>
+                  <span><i class="fas fa-star"></i> 推荐用于: 麻省理工</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Essay editor section (shows after clicking an essay card) -->
+        <div class="essay-editor">
+          <div class="editor-header">
+            <button class="btn btn-text" id="back-to-gallery">
+              <i class="fas fa-arrow-left"></i> 返回文书库
+            </button>
+            <div class="editor-actions">
+              <button class="btn btn-secondary">
+                <i class="fas fa-download"></i> 导出
+              </button>
+              <button class="btn btn-primary">
+                <i class="fas fa-magic"></i> AI优化
+              </button>
+            </div>
+          </div>
+          
+          <div class="version-selector">
+            <div class="version-tab active">版本 A: 科学探索</div>
+            <div class="version-tab">版本 B: 挑战与成长</div>
+            <div class="version-tab">版本 C: 创新思维</div>
+          </div>
+          
+          <div class="essay-section">
+            <h3>开头段落</h3>
+            <div class="essay-text">
+              当我站在实验台前，小心翼翼地记录着每一个数据变化，我体会到了<span class="trait-highlight">真正的科学探索精神</span>。那个关于植物生长的实验并不只是一个学校作业，它是我对世界充满<span class="highlight">好奇心</span>的具体表现。每天观察、测量、记录，这个过程教会了我科学研究最基本也最珍贵的品质：<span class="trait-highlight">耐心和坚持</span>。
+            </div>
+          </div>
+          
+          <div class="essay-section">
+            <h3>核心段落</h3>
+            <div class="essay-text">
+              这种对探索的热爱在科学竞赛中得到了进一步的体现。面对一道前所未见的难题，我没有退缩，而是运用<span class="trait-highlight">创造性思维</span>找到了解决方案。老师的表扬固然重要，但更让我珍视的是那一刻的恍然大悟——当所有线索突然连接，形成一个优雅解答的瞬间。这种感觉驱使我不断寻找新的挑战，从实验室到竞赛，从理论到应用。
+            </div>
+          </div>
+          
+          <div class="essay-section">
+            <h3>结尾段落</h3>
+            <div class="essay-text">
+              在斯坦福大学，我期待能够进一步拓展我的科学视野，与志同道合的同学和教授一起探索未知领域。我相信，我展现的<span class="trait-highlight">科学探索精神</span>、<span class="trait-highlight">创造性思维</span>和<span class="trait-highlight">坚持不懈的态度</span>，正是斯坦福大学所倡导的价值观。在这里，我不仅能够实现自己的学术梦想，还能为解决世界面临的重大挑战贡献力量。
+            </div>
+          </div>
+          
+          <div class="ai-analysis">
+            <h3>AI分析</h3>
+            <p>这篇个性陈述有效地整合了以下成长叙事元素:</p>
+            <ul>
+              <li>科学实验项目 (2023年5月3日)</li>
+              <li>科学竞赛的突破 (2023年6月12日)</li>
+            </ul>
+            <p>有效地展现了小明的<span class="trait-highlight">创造性思维</span>、<span class="trait-highlight">问题解决能力</span>和<span class="trait-highlight">科学探索精神</span>。</p>
+            
+            <div class="analysis-actions">
+              <button class="btn btn-secondary">修改重点</button>
+              <button class="btn btn-primary">生成新版本</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Hide all tab content
+          const tabContents = document.querySelectorAll('.tab-content');
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // Show the corresponding tab content
+          const tabName = this.getAttribute('data-tab');
+          document.getElementById(`${tabName}-tab`).classList.add('active');
+        });
+      });
+      
+      // Essay card clicking functionality
+      const essayCards = document.querySelectorAll('.essay-card');
+      const personalStatementSection = document.querySelector('.personal-statement-section');
+      const backToGalleryBtn = document.getElementById('back-to-gallery');
+      
+      essayCards.forEach(card => {
+        card.addEventListener('click', function() {
+          // Remove active class from all cards
+          essayCards.forEach(c => c.classList.remove('active'));
+          // Add active class to clicked card
+          this.classList.add('active');
+          
+          // Show editor, hide gallery
+          personalStatementSection.classList.add('active-editor');
+          
+          // In a real app, this would load the selected essay data
+          const essayType = this.getAttribute('data-essay');
+          // Load essay content based on the data-essay attribute
+        });
+      });
+      
+      // Back to gallery button functionality
+      backToGalleryBtn.addEventListener('click', function() {
+        personalStatementSection.classList.remove('active-editor');
+      });
+      
+      // Filter chips functionality
+      const filterChips = document.querySelectorAll('.filter-chip');
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+          if (this.classList.contains('active')) {
+            this.classList.remove('active');
+          } else {
+            this.classList.add('active');
+          }
+        });
+      });
+      
+      // Version tabs functionality
+      const versionTabs = document.querySelectorAll('.version-tab');
+      versionTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          versionTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          // In a real app, this would load the corresponding version content
+        });
+      });
+    });
+  </script>
+  
+  <!-- Add back the missing Bottom Navigation HTML -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <div class="nav-label">首页</div>
+    </a>
+    <a href="advisor.html" class="nav-item">
+      <i class="fas fa-comment-dots"></i>
+      <div class="nav-label">智慧顾问</div>
+    </a>
+    <a href="story-system.html" class="nav-item active">
+      <i class="fas fa-book"></i>
+      <div class="nav-label">成长叙事</div>
+    </a>
+    <a href="deliverables.html" class="nav-item">
+      <i class="fas fa-file-alt"></i>
+      <div class="nav-label">教育攻略</div>
+    </a>
+    <a href="abroad-advisor.html" class="nav-item">
+      <i class="fas fa-globe-asia"></i>
+      <div class="nav-label">留学军师</div>
+    </a>
+    <a href="explore.html" class="nav-item">
+      <i class="fas fa-compass"></i>
+      <div class="nav-label">探索</div>
+    </a>
+  </div>
+</body>
+</html> 

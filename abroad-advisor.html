@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>留学军师 - 2dots1line</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Navigation pills */
+    .nav-pills {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .nav-pills::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .nav-pill {
+      padding: 8px 16px;
+      font-size: 14px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      border-radius: 20px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-pill.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Assessment Summary */
+    .assessment-summary {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .score-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+    }
+    
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    
+    .score-ring {
+      fill: none;
+      stroke: #eee;
+      stroke-width: 5;
+    }
+    
+    .score-value {
+      fill: none;
+      stroke: var(--primary-color);
+      stroke-width: 5;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+    
+    .score-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .score-interpretation {
+      margin-top: 10px;
+    }
+    
+    .score-interpretation h3 {
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+    
+    /* Factor Assessment */
+    .factor-assessment {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    
+    .factor-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .factor-content {
+      padding: 15px;
+    }
+    
+    .factor-bar {
+      margin-bottom: 12px;
+    }
+    
+    .factor-name {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    
+    .factor-score {
+      font-weight: 600;
+    }
+    
+    .bar-container {
+      height: 8px;
+      background-color: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .bar {
+      height: 100%;
+      background-color: var(--primary-color);
+      border-radius: 4px;
+    }
+    
+    .factor-bar.strength .bar {
+      background-color: #27ae60;
+    }
+    
+    .factor-bar.growth .bar {
+      background-color: #f39c12;
+    }
+    
+    .analysis-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .analysis-card h3 {
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .analysis-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    
+    /* School matching styles */
+    .school-card {
+      display: flex;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    
+    .school-logo {
+      width: 80px;
+      height: 80px;
+      background-color: var(--accent-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--primary-color);
+      font-size: 24px;
+    }
+    
+    .school-info {
+      flex: 1;
+      padding: 16px;
+    }
+    
+    .school-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    
+    .school-match {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .match-high {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: #27ae60;
+    }
+    
+    .match-medium {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: #f39c12;
+    }
+    
+    .school-major {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-bottom: 8px;
+    }
+    
+    .school-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    .school-feature {
+      font-size: 12px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    
+    /* Timeline styles */
+    .timeline {
+      position: relative;
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      background-color: var(--accent-color);
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      border: 2px solid white;
+    }
+    
+    .timeline-date {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--primary-color);
+    }
+    
+    .timeline-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    
+    .timeline-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .timeline-badge {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+    }
+    
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-bottom: 12px;
+    }
+    
+    .timeline-tasks {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 12px;
+    }
+    
+    .timeline-task {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .timeline-task:last-child {
+      margin-bottom: 0;
+    }
+    
+    .task-checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 2px solid var(--primary-color);
+      margin-right: 8px;
+      position: relative;
+    }
+    
+    .task-checkbox.checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--primary-color);
+      font-size: 10px;
+    }
+    
+    .task-text {
+      font-size: 14px;
+    }
+
+    /* Add to the CSS section */
+    .app-container {
+      padding-bottom: 80px; /* Add padding to prevent content from being hidden under bottom nav */
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>留学军师</h1>
+    </header>
+
+    <!-- Navigation pills -->
+    <div class="nav-pills">
+      <div class="nav-pill active" data-tab="fitness">留学适配度</div>
+      <div class="nav-pill" data-tab="schools">学校匹配</div>
+      <div class="nav-pill" data-tab="timeline">申请时间线</div>
+    </div>
+    
+    <!-- Fitness Assessment Tab -->
+    <div class="tab-content active" id="fitness-tab">
+      <div class="assessment-summary">
+        <h2>留学适配度评估</h2>
+        <div class="score-container">
+          <div class="score-circle">
+            <svg viewBox="0 0 100 100">
+              <circle class="score-ring" cx="50" cy="50" r="45"></circle>
+              <circle class="score-value" cx="50" cy="50" r="45" stroke-dasharray="240 300" stroke-dashoffset="0"></circle>
+            </svg>
+            <div class="score-text">85%</div>
+          </div>
+          <div class="score-interpretation">
+            <h3>优秀适配度</h3>
+            <p>小明的个性特质和学习风格与国际教育环境高度契合</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Strengths -->
+      <div class="factor-assessment">
+        <div class="factor-header">
+          <h3>优势领域</h3>
+        </div>
+        <div class="factor-content">
+          <div class="factor-bar strength">
+            <div class="factor-name">
+              <span>适应能力</span>
+              <span class="factor-score">90%</span>
+            </div>
+            <div class="bar-container">
+              <div class="bar" style="width: 90%"></div>
+            </div>
+          </div>
+          
+          <div class="factor-bar strength">
+            <div class="factor-name">
+              <span>跨文化兴趣</span>
+              <span class="factor-score">85%</span>
+            </div>
+            <div class="bar-container">
+              <div class="bar" style="width: 85%"></div>
+            </div>
+          </div>
+          
+          <div class="factor-bar strength">
+            <div class="factor-name">
+              <span>学术准备度</span>
+              <span class="factor-score">88%</span>
+            </div>
+            <div class="bar-container">
+              <div class="bar" style="width: 88%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Areas for Growth -->
+      <div class="factor-assessment">
+        <div class="factor-header">
+          <h3>提升空间</h3>
+        </div>
+        <div class="factor-content">
+          <div class="factor-bar growth">
+            <div class="factor-name">
+              <span>语言能力</span>
+              <span class="factor-score">65%</span>
+            </div>
+            <div class="bar-container">
+              <div class="bar" style="width: 65%"></div>
+            </div>
+          </div>
+          
+          <div class="factor-bar growth">
+            <div class="factor-name">
+              <span>独立生活技能</span>
+              <span class="factor-score">70%</span>
+            </div>
+            <div class="bar-container">
+              <div class="bar" style="width: 70%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- AI Analysis -->
+      <div class="analysis-card">
+        <h3>智能分析</h3>
+        <p class="analysis-text">基于小明的学习历史和个性特质分析，他展现出对数理科学的浓厚兴趣和扎实基础，这与美国大学的STEM项目高度匹配。他的创新思维和解决问题的能力在多个科学项目中得到体现，这些都是国际学术环境所重视的品质。</p>
+        <p class="analysis-text">建议着重提升英语口语表达能力和独立生活技能，这将帮助他更好地适应国外校园生活。考虑参加更多团队合作项目，培养跨文化沟通能力。</p>
+      </div>
+      
+      <!-- Survey/Quiz Section -->
+      <div class="analysis-card">
+        <h3>留学倾向性调查</h3>
+        <p class="analysis-text">通过回答以下问题，您可以帮助我们更精确地评估留学适配度</p>
+        
+        <div style="margin-top: 16px;">
+          <button class="btn btn-primary" style="width: 100%;">开始调查问卷</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- School Matching Tab -->
+    <div class="tab-content" id="schools-tab">
+      <div class="analysis-card">
+        <h3>学校匹配结果</h3>
+        <p class="analysis-text">基于小明的学术特长、兴趣爱好和留学适配度评估，我们为他匹配了以下院校</p>
+      </div>
+      
+      <!-- School Cards -->
+      <div class="school-card">
+        <div class="school-logo">
+          <i class="fas fa-university"></i>
+        </div>
+        <div class="school-info">
+          <div class="school-header">
+            <h3>斯坦福大学</h3>
+            <span class="school-match match-high">匹配度: 92%</span>
+          </div>
+          <div class="school-major">计算机科学与工程</div>
+          <p>小明在科学探索和创造性思维方面的特长与斯坦福的创新氛围高度匹配</p>
+          <div class="school-features">
+            <span class="school-feature">创新精神</span>
+            <span class="school-feature">STEM领域强项</span>
+            <span class="school-feature">创业氛围</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="school-card">
+        <div class="school-logo">
+          <i class="fas fa-university"></i>
+        </div>
+        <div class="school-info">
+          <div class="school-header">
+            <h3>麻省理工学院</h3>
+            <span class="school-match match-high">匹配度: 88%</span>
+          </div>
+          <div class="school-major">电子工程与计算机科学</div>
+          <p>小明在数学和科学方面的强项与MIT的学术严谨性高度一致</p>
+          <div class="school-features">
+            <span class="school-feature">研究型</span>
+            <span class="school-feature">科学导向</span>
+            <span class="school-feature">跨学科合作</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="school-card">
+        <div class="school-logo">
+          <i class="fas fa-university"></i>
+        </div>
+        <div class="school-info">
+          <div class="school-header">
+            <h3>加州理工学院</h3>
+            <span class="school-match match-medium">匹配度: 79%</span>
+          </div>
+          <div class="school-major">物理学与应用数学</div>
+          <p>探索精神与理论研究能力与加州理工的研究氛围相符</p>
+          <div class="school-features">
+            <span class="school-feature">研究深度</span>
+            <span class="school-feature">小班教学</span>
+            <span class="school-feature">科学探索</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="school-card">
+        <div class="school-logo">
+          <i class="fas fa-university"></i>
+        </div>
+        <div class="school-info">
+          <div class="school-header">
+            <h3>卡内基梅隆大学</h3>
+            <span class="school-match match-medium">匹配度: 85%</span>
+          </div>
+          <div class="school-major">计算机科学</div>
+          <p>对技术创新的兴趣与CMU的专业技术教育高度吻合</p>
+          <div class="school-features">
+            <span class="school-feature">技术专长</span>
+            <span class="school-feature">计算机科学领先</span>
+            <span class="school-feature">项目实践</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="analysis-card" style="margin-top: 20px;">
+        <h3>量身定制学校搜索</h3>
+        <p class="analysis-text">想要发现更多适合您的学校？使用我们的高级筛选工具</p>
+        
+        <div style="margin-top: 16px;">
+          <button class="btn btn-primary" style="width: 100%;">开始定制搜索</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Application Timeline Tab -->
+    <div class="tab-content" id="timeline-tab">
+      <div class="analysis-card">
+        <h3>申请时间线</h3>
+        <p class="analysis-text">为小明量身定制的申请计划和关键时间节点</p>
+      </div>
+      
+      <div class="timeline">
+        <!-- Current Phase -->
+        <div class="timeline-item">
+          <div class="timeline-date">当前阶段 - 2023年9月</div>
+          <div class="timeline-card">
+            <div class="timeline-title">
+              准备阶段
+              <span class="timeline-badge">进行中</span>
+            </div>
+            <p class="timeline-desc">这是申请流程中的关键准备时间，需要开始规划标准化考试和增强个人特色</p>
+            <div class="timeline-tasks">
+              <div class="timeline-task">
+                <div class="task-checkbox checked"></div>
+                <div class="task-text">确定目标院校和专业方向</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox checked"></div>
+                <div class="task-text">制定标准化考试计划</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">参加托福/SAT模拟考试</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">开始准备个人陈述初稿</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Future Phases -->
+        <div class="timeline-item">
+          <div class="timeline-date">2023年10-11月</div>
+          <div class="timeline-card">
+            <div class="timeline-title">
+              早申请准备
+              <span class="timeline-badge">即将到来</span>
+            </div>
+            <p class="timeline-desc">对有意向通过早申请的学生，这是准备申请材料的关键阶段</p>
+            <div class="timeline-tasks">
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">完成托福/SAT考试</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">准备活动清单和荣誉列表</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">联系推荐人并提供材料</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">完成个人陈述和补充文书</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-date">2023年12月-2024年1月</div>
+          <div class="timeline-card">
+            <div class="timeline-title">
+              常规申请截止
+              <span class="timeline-badge">计划中</span>
+            </div>
+            <p class="timeline-desc">大多数美国大学的常规申请截止日在这个时间段</p>
+            <div class="timeline-tasks">
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">提交所有常规申请</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">完成可能的面试准备</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">确认所有材料已被学校接收</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-date">2024年3-4月</div>
+          <div class="timeline-card">
+            <div class="timeline-title">
+              录取决定
+              <span class="timeline-badge">计划中</span>
+            </div>
+            <p class="timeline-desc">大多数大学在这段时间发布录取结果</p>
+            <div class="timeline-tasks">
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">查收录取通知</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">比较不同学校的录取和奖学金情况</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">参加被录取学校的线上活动</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-date">2024年5月</div>
+          <div class="timeline-card">
+            <div class="timeline-title">
+              决定与准备
+              <span class="timeline-badge">计划中</span>
+            </div>
+            <p class="timeline-desc">做出最终决定并开始为入学做准备</p>
+            <div class="timeline-tasks">
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">提交入学确认和押金</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">申请住宿</div>
+              </div>
+              <div class="timeline-task">
+                <div class="task-checkbox"></div>
+                <div class="task-text">准备签证申请</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="analysis-card" style="margin-top: 20px;">
+        <h3>自定义时间线</h3>
+        <p class="analysis-text">根据您的具体情况和目标院校调整申请时间线</p>
+        
+        <div style="margin-top: 16px;">
+          <button class="btn btn-primary" style="width: 100%;">调整我的时间线</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <div class="nav-label">首页</div>
+    </a>
+    <a href="advisor.html" class="nav-item">
+      <i class="fas fa-comment-dots"></i>
+      <div class="nav-label">智慧顾问</div>
+    </a>
+    <a href="story-system.html" class="nav-item">
+      <i class="fas fa-book"></i>
+      <div class="nav-label">成长叙事</div>
+    </a>
+    <a href="deliverables.html" class="nav-item">
+      <i class="fas fa-file-alt"></i>
+      <div class="nav-label">教育攻略</div>
+    </a>
+    <a href="abroad-advisor.html" class="nav-item active">
+      <i class="fas fa-globe-asia"></i>
+      <div class="nav-label">留学军师</div>
+    </a>
+    <a href="explore.html" class="nav-item">
+      <i class="fas fa-compass"></i>
+      <div class="nav-label">探索</div>
+    </a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab switching functionality
+      const navPills = document.querySelectorAll('.nav-pill');
+      navPills.forEach(pill => {
+        pill.addEventListener('click', function() {
+          // Remove active class from all pills
+          navPills.forEach(p => p.classList.remove('active'));
+          // Add active class to clicked pill
+          this.classList.add('active');
+          
+          // Hide all tab content
+          const tabContents = document.querySelectorAll('.tab-content');
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // Show the corresponding tab content
+          const tabName = this.getAttribute('data-tab');
+          document.getElementById(`${tabName}-tab`).classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html> 

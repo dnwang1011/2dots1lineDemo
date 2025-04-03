@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教育攻略 - 2dots1line</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+       /* ... body styles if any specific to this page ... */
+    }
+
+    .app-container {
+       /* ... app-container styles if any specific to this page ... */
+       padding: 20px 20px 100px 20px !important; /* Add consistent padding on all sides */
+    }
+
+    /* Tabs at top of page */
+    .main-tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      background: white;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .main-tabs::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .main-tab {
+      padding: 16px 20px;
+      white-space: nowrap;
+      color: var(--light-text);
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .main-tab.active {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .main-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+      right: 20px;
+      height: 3px;
+      background-color: var(--primary-color);
+      border-radius: 3px 3px 0 0;
+    }
+    
+    /* Investment Dashboard Section */
+    .dashboard-overview {
+      margin: 16px 0 24px 0;
+    }
+    
+    .metrics-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .metric-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    
+    .metric-title {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-bottom: 6px;
+    }
+    
+    .metric-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 4px;
+    }
+    
+    .metric-subtitle {
+      font-size: 12px;
+      color: var(--light-text);
+    }
+    
+    .roi-metric {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .roi-info {
+      flex: 1;
+    }
+    
+    .roi-label {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-bottom: 6px;
+    }
+    
+    .roi-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .roi-value.high {
+      color: #27ae60;
+    }
+    
+    .roi-badge {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: #27ae60;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .chart-container {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .chart-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .chart-placeholder {
+      height: 150px;
+      background-color: var(--accent-color);
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 12px 0;
+      color: var(--primary-color);
+    }
+    
+    /* Carousel for activities */
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .view-all-link {
+      font-size: 14px;
+      color: var(--primary-color);
+    }
+    
+    .carousel-container {
+      position: relative;
+      margin: 0 0 16px 0;
+      padding: 0;
+    }
+    
+    .activities-carousel {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 4px 0 8px 0;
+      overflow-x: visible;
+    }
+    
+    .activity-card {
+      width: 100%;
+      margin: 0 0 16px 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+    }
+    
+    .activity-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .activity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .activity-type {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+    }
+    
+    .activity-type.free {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: #27ae60;
+    }
+    
+    .activity-type.premium {
+      background-color: rgba(155, 89, 182, 0.2);
+      color: #9b59b6;
+    }
+    
+    .roi-indicator {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+    
+    .roi-high {
+      background-color: rgba(46, 204, 113, 0.1);
+      color: #27ae60;
+    }
+    
+    .roi-medium {
+      background-color: rgba(241, 196, 15, 0.1);
+      color: #f1c40f;
+    }
+    
+    .roi-low {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+    }
+    
+    .activity-content {
+      padding: 16px;
+    }
+    
+    .activity-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+    }
+    
+    .activity-desc {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 12px 0;
+      min-height: 40px;
+    }
+    
+    .activity-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+    
+    .activity-meta {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .activity-meta .metric {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: #666;
+    }
+    
+    .activity-meta .metric i {
+      margin-right: 4px;
+      color: var(--primary-color);
+    }
+    
+    .activity-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    
+    .activity-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background-color: var(--accent-color);
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+    
+    .metric {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .metric i {
+      margin-bottom: 3px;
+      color: var(--primary-color);
+    }
+    
+    .activity-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .btn {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+    }
+
+    /* Tab Content */
+    .main-tab-content {
+      display: none;
+    }
+    
+    .main-tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Navigation pills */
+    .nav-pills {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .nav-pills::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .nav-pill {
+      padding: 8px 16px;
+      font-size: 14px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      border-radius: 20px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-pill.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    /* Optimization suggestions */
+    .optimization-card {
+      margin-bottom: 12px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .optimization-indicator {
+      width: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+    }
+    
+    .indicator-up {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: #27ae60;
+    }
+    
+    .indicator-down {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+    }
+    
+    .optimization-content {
+      flex: 1;
+      padding: 12px;
+    }
+    
+    .optimization-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .optimization-desc {
+      font-size: 14px;
+      color: var(--light-text);
+    }
+
+    /* Study Abroad Advisor styles */
+    .abroad-tab-content {
+      padding: 20px 0;
+    }
+    
+    .assessment-summary {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .score-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+    }
+    
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    
+    .score-ring {
+      fill: none;
+      stroke: #eee;
+      stroke-width: 5;
+    }
+    
+    .score-value {
+      fill: none;
+      stroke: var(--primary-color);
+      stroke-width: 5;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+    
+    .score-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .score-interpretation {
+      margin-top: 10px;
+    }
+    
+    .score-interpretation h3 {
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+    
+    .factor-assessment {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    
+    .factor-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .factor-content {
+      padding: 15px;
+    }
+    
+    .factor-bar {
+      margin-bottom: 12px;
+    }
+    
+    .factor-name {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    
+    .factor-score {
+      font-weight: 600;
+    }
+    
+    .bar-container {
+      height: 8px;
+      background-color: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .bar {
+      height: 100%;
+      background-color: var(--primary-color);
+      border-radius: 4px;
+    }
+    
+    .factor-bar.strength .bar {
+      background-color: #27ae60;
+    }
+    
+    .factor-bar.growth .bar {
+      background-color: #f39c12;
+    }
+    
+    .analysis-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 15px;
+    }
+    
+    .analysis-card h3 {
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .analysis-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    /* Activity Table Styles */
+    .view-toggle {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .view-btn {
+      padding: 6px 12px;
+      background-color: var(--accent-color);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--primary-color);
+    }
+    
+    .view-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .view-content {
+      display: none;
+      margin-top: 20px;
+    }
+    
+    .view-content.active {
+      display: block;
+    }
+    
+    .activity-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    
+    .activity-table th,
+    .activity-table td {
+      padding: 12px;
+      white-space: normal;
+    }
+    
+    .activity-table th:nth-child(1) {
+      width: 28%;
+    }
+    
+    .activity-table th:nth-child(2) {
+      width: 15%;
+    }
+    
+    .activity-table th:nth-child(3) {
+      width: 32%;
+    }
+    
+    .activity-table th:nth-child(4) {
+      width: 25%;
+    }
+    
+    .activity-table th {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .activity-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .activity-table tfoot {
+      background-color: #f5f8ff;
+    }
+    
+    .tag-small {
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 12px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+    }
+    
+    .chart-breakdown {
+      display: flex;
+      gap: 20px;
+      margin-top: 24px;
+    }
+    
+    .chart-section {
+      flex: 1;
+      background-color: white;
+      padding: 16px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .chart-legend {
+      margin-top: 16px;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    
+    /* Calendar Styles */
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .calendar-nav {
+      background-color: var(--accent-color);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: var(--primary-color);
+    }
+    
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      background-color: white;
+      padding: 10px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .calendar-day {
+      min-height: 60px;
+      padding: 4px;
+      font-size: 14px;
+    }
+    
+    .calendar-day.header {
+      min-height: auto;
+      text-align: center;
+      font-weight: 600;
+      padding: 10px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+    }
+    
+    .calendar-day.inactive {
+      background-color: #f9f9f9;
+      color: #ccc;
+    }
+    
+    .calendar-event {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 2px;
+      position: relative;
+    }
+    
+    .calendar-event.academic {
+      background-color: #4f74e3;
+    }
+    
+    .calendar-event.competition {
+      background-color: #27ae60;
+    }
+    
+    .calendar-event.service {
+      background-color: #9b59b6;
+    }
+    
+    .calendar-event.more {
+      background-color: #f0f0f0;
+      width: auto;
+      height: auto;
+      border-radius: 4px;
+      padding: 2px 4px;
+      font-size: 10px;
+      text-align: center;
+    }
+    
+    .calendar-event:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    
+    .calendar-legend {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      margin-bottom: 30px;
+      justify-content: center;
+    }
+
+    /* Add spacing to activity recommendation cards */
+    .activity-card {
+      margin-bottom: 16px;
+    }
+    
+    /* Add padding to investment optimization section */
+    .investment-suggestions {
+      padding-bottom: 20px;
+    }
+
+    /* Make calendar view scrollable if content exceeds height */
+    #calendar-view {
+      max-height: none;
+      overflow-y: visible;
+      padding-bottom: 20px;
+    }
+
+    /* Ensure section spacing is consistent */
+    section {
+      margin-bottom: 24px;
+    }
+
+    /* Make header have proper margin */
+    header h1 {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    /* Ensure responsive behavior for smaller screens */
+    @media (max-width: 480px) {
+      .calendar-day {
+        min-height: 50px;
+        font-size: 12px;
+      }
+      
+      .calendar-event {
+        font-size: 9px;
+      }
+      
+      .calendar-grid {
+        gap: 2px;
+      }
+    }
+
+    /* Fix recommendation cards padding */
+    .activity-recommendations {
+      padding: 0;
+    }
+
+    .carousel-container {
+      margin: 0 0 16px 0;
+      padding: 0;
+    }
+
+    /* Ensure all cards and components have consistent spacing */
+    .metric-card, 
+    .roi-metric, 
+    .chart-container, 
+    .optimization-card, 
+    .chart-section {
+      margin-bottom: 16px;
+    }
+
+    /* Make optimization section have better spacing */
+    .dashboard-overview h3 {
+      margin-top: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* Ensure section titles have proper spacing */
+    .section-title {
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+
+    /* Fix calendar legend spacing */
+    .calendar-legend {
+      margin-bottom: 16px;
+    }
+
+    /* Add space between tabs and content in activities breakdown */
+    .view-content {
+      margin-top: 16px;
+    }
+
+    /* Fix the activity table margin */
+    .table-container {
+      margin-bottom: 24px;
+    }
+
+    /* Fix chart breakdown gap for better appearance */
+    .chart-breakdown {
+      gap: 16px;
+    }
+
+    /* Style the activity table */
+    .activity-table td {
+      vertical-align: middle;
+    }
+
+    /* Add status badge styles */
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .status-badge.in-progress {
+      background-color: rgba(79, 116, 227, 0.1);
+      color: #4f74e3;
+    }
+
+    .status-badge.completed {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: #27ae60;
+    }
+
+    .status-badge.upcoming {
+      background-color: rgba(241, 196, 15, 0.1);
+      color: #f1c40f;
+    }
+
+    .status-detail {
+      font-size: 12px;
+      color: var(--light-text);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>教育攻略</h1>
+    </header>
+
+    <!-- Navigation pills -->
+    <div class="nav-pills" style="margin-top: 16px;">
+      <div class="nav-pill active" data-filter="all">全部活动</div>
+      <div class="nav-pill" data-filter="academic">学术类</div>
+      <div class="nav-pill" data-filter="extracurricular">课外活动</div>
+      <div class="nav-pill" data-filter="leadership">领导力</div>
+      <div class="nav-pill" data-filter="service">社区服务</div>
+      <div class="nav-pill" data-filter="competition">竞赛</div>
+    </div>
+
+    <!-- Investment Dashboard -->
+    <section class="dashboard-overview">
+      <h2>教育投入分析</h2>
+      
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-title">时间投入</div>
+          <div class="metric-value">320小时</div>
+          <div class="metric-subtitle">过去6个月</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-title">资金投入</div>
+          <div class="metric-value">¥15,600</div>
+          <div class="metric-subtitle">过去6个月</div>
+        </div>
+      </div>
+      
+      <div class="roi-metric">
+        <div class="roi-info">
+          <div class="roi-label">平均投资回报率</div>
+          <div class="roi-value high">高</div>
+        </div>
+        <div class="roi-badge">
+          基于申请竞争力提升
+        </div>
+      </div>
+      
+      <div class="chart-container">
+        <div class="chart-title">时间与资金分配</div>
+        <div class="chart-placeholder">
+          <i class="fas fa-chart-pie fa-2x"></i>
+        </div>
+      </div>
+      
+      <h3>投入优化建议</h3>
+      <div class="optimization-card">
+        <div class="optimization-indicator indicator-up">
+          <i class="fas fa-arrow-up"></i>
+        </div>
+        <div class="optimization-content">
+          <div class="optimization-title">可增加投入: 科学类竞赛</div>
+          <div class="optimization-desc">每周+2小时有望提升申请竞争力20%</div>
+        </div>
+      </div>
+      
+      <div class="optimization-card">
+        <div class="optimization-indicator indicator-down">
+          <i class="fas fa-arrow-down"></i>
+        </div>
+        <div class="optimization-content">
+          <div class="optimization-title">可减少投入: 标准化考试备考</div>
+          <div class="optimization-desc">当前阶段帮助有限，建议每周-3小时</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Activity Recommendations - Redesign activity cards -->
+    <section class="activity-recommendations">
+      <div class="section-title">
+        <h2>推荐活动</h2>
+        <a href="#" class="view-all-link">查看全部</a>
+      </div>
+      
+      <div class="carousel-container">
+        <div class="activities-carousel">
+          <!-- Activity Card 1 -->
+          <div class="activity-card">
+            <div class="activity-content">
+              <div class="activity-header">
+                <span class="activity-type free">日常活动</span>
+                <span class="roi-indicator roi-high">ROI: 高</span>
+              </div>
+              <h3 class="activity-title">科学阅读笔记</h3>
+              <p class="activity-desc">每周阅读一篇科学论文并撰写思考笔记，培养学术思维</p>
+              <div class="activity-footer">
+                <div class="activity-meta">
+                  <div class="metric"><i class="fas fa-clock"></i> 2小时/周</div>
+                  <div class="metric"><i class="fas fa-coins"></i> 免费</div>
+                </div>
+                <div class="activity-buttons">
+                  <button class="btn btn-primary">添加</button>
+                  <button class="btn btn-secondary">详情</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Activity Card 2 -->
+          <div class="activity-card">
+            <div class="activity-content">
+              <div class="activity-header">
+                <span class="activity-type">课程</span>
+                <span class="roi-indicator roi-medium">ROI: 中</span>
+              </div>
+              <h3 class="activity-title">数据科学在线课程</h3>
+              <p class="activity-desc">完成Coursera上的Python数据分析认证课程</p>
+              <div class="activity-footer">
+                <div class="activity-meta">
+                  <div class="metric"><i class="fas fa-clock"></i> 40小时</div>
+                  <div class="metric"><i class="fas fa-coins"></i> ¥800</div>
+                </div>
+                <div class="activity-buttons">
+                  <button class="btn btn-primary">添加</button>
+                  <button class="btn btn-secondary">详情</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Activity Card 3 -->
+          <div class="activity-card">
+            <div class="activity-content">
+              <div class="activity-header">
+                <span class="activity-type premium">重点项目</span>
+                <span class="roi-indicator roi-high">ROI: 高</span>
+              </div>
+              <h3 class="activity-title">MIT科学夏令营</h3>
+              <p class="activity-desc">参与为期3周的麻省理工学院科学夏令营</p>
+              <div class="activity-footer">
+                <div class="activity-meta">
+                  <div class="metric"><i class="fas fa-clock"></i> 120小时</div>
+                  <div class="metric"><i class="fas fa-coins"></i> ¥25,000</div>
+                </div>
+                <div class="activity-buttons">
+                  <button class="btn btn-primary">添加</button>
+                  <button class="btn btn-secondary">详情</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Activity Card 4 -->
+          <div class="activity-card">
+            <div class="activity-content">
+              <div class="activity-header">
+                <span class="activity-type">竞赛</span>
+                <span class="roi-indicator roi-high">ROI: 高</span>
+              </div>
+              <h3 class="activity-title">国际科学奥林匹克</h3>
+              <p class="activity-desc">参加物理、化学或生物学国际奥林匹克竞赛</p>
+              <div class="activity-footer">
+                <div class="activity-meta">
+                  <div class="metric"><i class="fas fa-clock"></i> 200小时</div>
+                  <div class="metric"><i class="fas fa-coins"></i> ¥5,000</div>
+                </div>
+                <div class="activity-buttons">
+                  <button class="btn btn-primary">添加</button>
+                  <button class="btn btn-secondary">详情</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Activity Detail Breakdown Section (New) -->
+    <section class="activity-breakdown">
+      <div class="section-title">
+        <h2>活动详细分析</h2>
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="table">表格视图</button>
+          <button class="view-btn" data-view="calendar">日历视图</button>
+        </div>
+      </div>
+      
+      <!-- Table View -->
+      <div class="view-content active" id="table-view">
+        <div class="table-container">
+          <table class="activity-table">
+            <thead>
+              <tr>
+                <th>活动名称</th>
+                <th>类型</th>
+                <th>投入与回报</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>科学阅读笔记</td>
+                <td><span class="tag-small">日常活动</span></td>
+                <td>
+                  <div>52小时 | ¥0</div>
+                  <div class="roi-high">ROI: 高</div>
+                </td>
+                <td>
+                  <div class="status-badge in-progress">进行中</div>
+                  <div class="status-detail">完成度: 65%</div>
+                </td>
+              </tr>
+              <tr>
+                <td>数据科学在线课程</td>
+                <td><span class="tag-small">课程</span></td>
+                <td>
+                  <div>40小时 | ¥800</div>
+                  <div class="roi-medium">ROI: 中</div>
+                </td>
+                <td>
+                  <div class="status-badge completed">已完成</div>
+                  <div class="status-detail">2023年8月完成</div>
+                </td>
+              </tr>
+              <tr>
+                <td>全国青少年科技创新大赛</td>
+                <td><span class="tag-small">竞赛</span></td>
+                <td>
+                  <div>48小时 | ¥1,500</div>
+                  <div class="roi-high">ROI: 高</div>
+                </td>
+                <td>
+                  <div class="status-badge completed">已完成</div>
+                  <div class="status-detail">获得银牌</div>
+                </td>
+              </tr>
+              <tr>
+                <td>数学奥林匹克集训</td>
+                <td><span class="tag-small">竞赛</span></td>
+                <td>
+                  <div>60小时 | ¥3,000</div>
+                  <div class="roi-high">ROI: 高</div>
+                </td>
+                <td>
+                  <div class="status-badge completed">已完成</div>
+                  <div class="status-detail">排名前10%</div>
+                </td>
+              </tr>
+              <tr>
+                <td>英语演讲俱乐部</td>
+                <td><span class="tag-small">课外活动</span></td>
+                <td>
+                  <div>24小时 | ¥1,200</div>
+                  <div class="roi-medium">ROI: 中</div>
+                </td>
+                <td>
+                  <div class="status-badge in-progress">进行中</div>
+                  <div class="status-detail">已参加5次会议</div>
+                </td>
+              </tr>
+              <tr>
+                <td>社区志愿服务</td>
+                <td><span class="tag-small">社区服务</span></td>
+                <td>
+                  <div>36小时 | ¥0</div>
+                  <div class="roi-medium">ROI: 中</div>
+                </td>
+                <td>
+                  <div class="status-badge in-progress">进行中</div>
+                  <div class="status-detail">已完成20小时</div>
+                </td>
+              </tr>
+              <tr>
+                <td>编程竞赛</td>
+                <td><span class="tag-small">竞赛</span></td>
+                <td>
+                  <div>30小时 | ¥500</div>
+                  <div class="roi-high">ROI: 高</div>
+                </td>
+                <td>
+                  <div class="status-badge upcoming">即将开始</div>
+                  <div class="status-detail">9月15日开始</div>
+                </td>
+              </tr>
+              <tr>
+                <td>托福备考</td>
+                <td><span class="tag-small">考试</span></td>
+                <td>
+                  <div>80小时 | ¥8,000</div>
+                  <div class="roi-low">ROI: 低</div>
+                </td>
+                <td>
+                  <div class="status-badge in-progress">进行中</div>
+                  <div class="status-detail">目标分数: 110</div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2"><strong>总计</strong></td>
+                <td><strong>370小时 | ¥15,000</strong></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        
+        <div class="chart-breakdown">
+          <div class="chart-section">
+            <h3>时间投入分布</h3>
+            <div class="chart-placeholder">
+              <i class="fas fa-chart-pie fa-2x"></i>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #4f74e3;"></span>
+                <span>竞赛 (138小时)</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #27ae60;"></span>
+                <span>课外活动 (24小时)</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #f39c12;"></span>
+                <span>日常活动 (52小时)</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #e74c3c;"></span>
+                <span>考试准备 (80小时)</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #9b59b6;"></span>
+                <span>社区服务 (36小时)</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="chart-section">
+            <h3>资金投入分布</h3>
+            <div class="chart-placeholder">
+              <i class="fas fa-chart-pie fa-2x"></i>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #4f74e3;"></span>
+                <span>竞赛 (¥5,000)</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #27ae60;"></span>
+                <span>课外活动 (¥1,200)</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #f39c12;"></span>
+                <span>课程 (¥800)</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-dot" style="background-color: #e74c3c;"></span>
+                <span>考试准备 (¥8,000)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Calendar View -->
+      <div class="view-content" id="calendar-view">
+        <div class="calendar-header">
+          <button class="calendar-nav"><i class="fas fa-chevron-left"></i></button>
+          <h3>2023年9月</h3>
+          <button class="calendar-nav"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        
+        <div class="calendar-grid">
+          <div class="calendar-day header">周一</div>
+          <div class="calendar-day header">周二</div>
+          <div class="calendar-day header">周三</div>
+          <div class="calendar-day header">周四</div>
+          <div class="calendar-day header">周五</div>
+          <div class="calendar-day header">周六</div>
+          <div class="calendar-day header">周日</div>
+          
+          <!-- Week 1 -->
+          <div class="calendar-day inactive">28</div>
+          <div class="calendar-day inactive">29</div>
+          <div class="calendar-day inactive">30</div>
+          <div class="calendar-day inactive">31</div>
+          <div class="calendar-day">
+            1
+            <div class="calendar-event academic" data-tooltip="科学阅读笔记 2小时"></div>
+          </div>
+          <div class="calendar-day">
+            2
+            <div class="calendar-event competition" data-tooltip="数学奥赛集训 4小时"></div>
+          </div>
+          <div class="calendar-day">3</div>
+          
+          <!-- Week 2 -->
+          <div class="calendar-day">
+            4
+            <div class="calendar-event service" data-tooltip="社区志愿服务 3小时"></div>
+          </div>
+          <div class="calendar-day">
+            5
+            <div class="calendar-event academic" data-tooltip="托福备考 2小时"></div>
+          </div>
+          <div class="calendar-day">
+            6
+            <div class="calendar-event academic" data-tooltip="英语俱乐部 2小时"></div>
+          </div>
+          <div class="calendar-day">
+            7
+            <div class="calendar-event academic" data-tooltip="托福备考 2小时"></div>
+          </div>
+          <div class="calendar-day">
+            8
+            <div class="calendar-event academic" data-tooltip="科学阅读笔记 2小时"></div>
+          </div>
+          <div class="calendar-day">
+            9
+            <div class="calendar-event competition" data-tooltip="数学奥赛集训 4小时"></div>
+          </div>
+          <div class="calendar-day">10</div>
+          
+          <!-- More weeks... -->
+          <div class="calendar-day">11</div>
+          <div class="calendar-day">
+            12
+            <div class="calendar-event academic" data-tooltip="托福备考 2小时"></div>
+          </div>
+          <div class="calendar-day">
+            13
+            <div class="calendar-event academic" data-tooltip="英语俱乐部 2小时"></div>
+          </div>
+          <div class="calendar-day">
+            14
+            <div class="calendar-event academic" data-tooltip="托福备考 2小时"></div>
+          </div>
+          <div class="calendar-day">
+            15
+            <div class="calendar-event academic" data-tooltip="科学阅读笔记 2小时"></div>
+            <div class="calendar-event competition" data-tooltip="数学竞赛 3小时"></div>
+            <div class="calendar-event more">+1</div>
+          </div>
+          <div class="calendar-day">
+            16
+            <div class="calendar-event competition" data-tooltip="数学奥赛集训 4小时"></div>
+          </div>
+          <div class="calendar-day">17</div>
+        </div>
+        
+        <div class="calendar-legend">
+          <div class="legend-item">
+            <span class="color-dot" style="background-color: #4f74e3;"></span>
+            <span>学术类</span>
+          </div>
+          <div class="legend-item">
+            <span class="color-dot" style="background-color: #27ae60;"></span>
+            <span>竞赛</span>
+          </div>
+          <div class="legend-item">
+            <span class="color-dot" style="background-color: #f39c12;"></span>
+            <span>课外活动</span>
+          </div>
+          <div class="legend-item">
+            <span class="color-dot" style="background-color: #9b59b6;"></span>
+            <span>社区服务</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <div class="nav-label">首页</div>
+    </a>
+    <a href="advisor.html" class="nav-item">
+      <i class="fas fa-comment-dots"></i>
+      <div class="nav-label">智慧顾问</div>
+    </a>
+    <a href="story-system.html" class="nav-item">
+      <i class="fas fa-book"></i>
+      <div class="nav-label">成长叙事</div>
+    </a>
+    <a href="deliverables.html" class="nav-item active">
+      <i class="fas fa-file-alt"></i>
+      <div class="nav-label">教育攻略</div>
+    </a>
+    <a href="abroad-advisor.html" class="nav-item">
+      <i class="fas fa-globe-asia"></i>
+      <div class="nav-label">留学军师</div>
+    </a>
+    <a href="explore.html" class="nav-item">
+      <i class="fas fa-compass"></i>
+      <div class="nav-label">探索</div>
+    </a>
+  </div>
+
+  <script>
+    // View toggling for activity breakdown
+    document.addEventListener('DOMContentLoaded', function() {
+      const viewBtns = document.querySelectorAll('.view-btn');
+      viewBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove active class from all buttons
+          viewBtns.forEach(b => b.classList.remove('active'));
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Hide all view content
+          const viewContents = document.querySelectorAll('.view-content');
+          viewContents.forEach(content => content.classList.remove('active'));
+          
+          // Show selected view content
+          const viewType = this.getAttribute('data-view');
+          document.getElementById(`${viewType}-view`).classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html> 

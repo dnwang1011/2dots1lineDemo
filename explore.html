@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>探索 - 2dots1line</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .search-container {
+      padding: 16px;
+      background-color: white;
+      margin-bottom: 16px;
+    }
+    
+    .search-box {
+      display: flex;
+      align-items: center;
+      background-color: #f5f8fa;
+      border-radius: 24px;
+      padding: 8px 16px;
+      position: relative;
+    }
+    
+    .search-icon {
+      color: var(--light-text);
+      margin-right: 8px;
+    }
+    
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 8px 0;
+      outline: none;
+      font-size: 14px;
+    }
+    
+    .filter-button {
+      background: var(--accent-color);
+      color: var(--primary-color);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    
+    .category-tabs {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 0 16px 16px;
+      background-color: white;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .category-tabs::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .category-tab {
+      padding: 8px 16px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      border-radius: 20px;
+      font-size: 14px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .category-tab.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .discover-section {
+      margin-bottom: 24px;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      margin-bottom: 12px;
+    }
+    
+    .view-all {
+      font-size: 14px;
+      color: var(--primary-color);
+    }
+    
+    .horizontal-scroll {
+      display: flex;
+      overflow-x: auto;
+      padding: 0 16px 8px;
+      gap: 16px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .horizontal-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .discover-card {
+      min-width: 250px;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    
+    .card-image {
+      height: 140px;
+      background-color: var(--accent-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--primary-color);
+      font-size: 24px;
+    }
+    
+    .card-content {
+      padding: 16px;
+    }
+    
+    .card-tags {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .card-tag {
+      font-size: 12px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .card-desc {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+      font-size: 12px;
+      color: var(--light-text);
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin: 0 16px 16px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      margin-right: 16px;
+    }
+    
+    .feature-content {
+      flex: 1;
+    }
+    
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .feature-desc {
+      font-size: 14px;
+      color: var(--light-text);
+    }
+    
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      padding: 0 16px 16px;
+    }
+    
+    .grid-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    
+    .grid-image {
+      height: 100px;
+      background-color: var(--accent-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--primary-color);
+      font-size: 20px;
+    }
+    
+    .grid-content {
+      padding: 12px;
+    }
+    
+    .grid-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    
+    .grid-desc {
+      font-size: 12px;
+      color: var(--light-text);
+    }
+    
+    .app-container {
+      padding-bottom: 80px; /* Add padding to prevent content from being hidden under bottom nav */
+    }
+
+    /* Case Study Styles */
+    .case-study-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 0 16px;
+    }
+
+    .case-study-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .case-header {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .student-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      margin-right: 12px;
+    }
+
+    .student-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    .student-result {
+      color: var(--primary-color);
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .case-content {
+      padding: 16px;
+    }
+
+    .key-achievement {
+      background-color: var(--accent-color);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .achievement-label {
+      font-size: 12px;
+      color: var(--light-text);
+      margin-bottom: 4px;
+    }
+
+    .achievement-value {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .case-preview {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--light-text);
+      margin-bottom: 12px;
+    }
+
+    .case-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .case-tag {
+      font-size: 12px;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .case-btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .case-btn:hover {
+      background-color: #3a5dd0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>探索</h1>
+    </header>
+
+    <!-- Search bar -->
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="搜索活动、大学、课程等..." />
+        <button class="filter-button">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Category tabs -->
+    <div class="category-tabs">
+      <div class="category-tab active">全部</div>
+      <div class="category-tab">活动</div>
+      <div class="category-tab">大学</div>
+      <div class="category-tab">课程</div>
+      <div class="category-tab">竞赛</div>
+      <div class="category-tab">夏校</div>
+      <div class="category-tab">志愿服务</div>
+    </div>
+    
+    <!-- Featured Programs -->
+    <section class="discover-section">
+      <div class="section-header">
+        <h2>热门项目</h2>
+        <a href="#" class="view-all">查看全部</a>
+      </div>
+      
+      <div class="horizontal-scroll">
+        <div class="discover-card">
+          <div class="card-image">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="card-content">
+            <div class="card-tags">
+              <div class="card-tag">夏校</div>
+              <div class="card-tag">科学</div>
+            </div>
+            <h3 class="card-title">MIT科学夏校</h3>
+            <p class="card-desc">参与MIT教授和研究生带领的实验室研究和项目开发</p>
+            <div class="card-footer">
+              <div>
+                <i class="fas fa-calendar-alt"></i> 3周
+              </div>
+              <div>
+                <i class="fas fa-globe-americas"></i> 美国
+              </div>
+              <div>
+                <i class="fas fa-star"></i> 4.9
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="discover-card">
+          <div class="card-image">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <div class="card-content">
+            <div class="card-tags">
+              <div class="card-tag">竞赛</div>
+              <div class="card-tag">数学</div>
+            </div>
+            <h3 class="card-title">国际数学奥林匹克</h3>
+            <p class="card-desc">世界顶级数学竞赛，提升高阶数学思维和解题能力</p>
+            <div class="card-footer">
+              <div>
+                <i class="fas fa-calendar-alt"></i> 年度
+              </div>
+              <div>
+                <i class="fas fa-globe-americas"></i> 国际
+              </div>
+              <div>
+                <i class="fas fa-star"></i> 5.0
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="discover-card">
+          <div class="card-image">
+            <i class="fas fa-flask"></i>
+          </div>
+          <div class="card-content">
+            <div class="card-tags">
+              <div class="card-tag">研究</div>
+              <div class="card-tag">STEM</div>
+            </div>
+            <h3 class="card-title">青少年科研计划</h3>
+            <p class="card-desc">与科研导师合作完成原创性科学研究项目</p>
+            <div class="card-footer">
+              <div>
+                <i class="fas fa-calendar-alt"></i> 6个月
+              </div>
+              <div>
+                <i class="fas fa-globe-americas"></i> 线上+线下
+              </div>
+              <div>
+                <i class="fas fa-star"></i> 4.7
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Recommended for you -->
+    <section class="discover-section">
+      <div class="section-header">
+        <h2>为你推荐</h2>
+        <a href="#" class="view-all">查看全部</a>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-laptop-code"></i>
+        </div>
+        <div class="feature-content">
+          <h3 class="feature-title">AI编程夏令营</h3>
+          <p class="feature-desc">根据你的编程兴趣和数学能力推荐，开发AI应用项目</p>
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-microscope"></i>
+        </div>
+        <div class="feature-content">
+          <h3 class="feature-title">生物学研究实习</h3>
+          <p class="feature-desc">与顶尖研究员一起探索前沿生物科技，发表研究论文</p>
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-hands-helping"></i>
+        </div>
+        <div class="feature-content">
+          <h3 class="feature-title">全球领导力项目</h3>
+          <p class="feature-desc">通过社会实践展示你的领导力和解决问题能力</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Trending Universities -->
+    <section class="discover-section">
+      <div class="section-header">
+        <h2>热门大学</h2>
+        <a href="#" class="view-all">查看全部</a>
+      </div>
+      
+      <div class="grid-container">
+        <div class="grid-card">
+          <div class="grid-image">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="grid-content">
+            <h3 class="grid-title">斯坦福大学</h3>
+            <p class="grid-desc">计算机科学和创业领域世界顶尖</p>
+          </div>
+        </div>
+        
+        <div class="grid-card">
+          <div class="grid-image">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="grid-content">
+            <h3 class="grid-title">麻省理工学院</h3>
+            <p class="grid-desc">工程、科学和技术领域全球领先</p>
+          </div>
+        </div>
+        
+        <div class="grid-card">
+          <div class="grid-image">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="grid-content">
+            <h3 class="grid-title">哈佛大学</h3>
+            <p class="grid-desc">顶尖综合性研究大学</p>
+          </div>
+        </div>
+        
+        <div class="grid-card">
+          <div class="grid-image">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="grid-content">
+            <h3 class="grid-title">加州理工学院</h3>
+            <p class="grid-desc">理工科领域精英教育</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add new Success Case Analysis section before the bottom navigation -->
+    <section class="discover-section">
+      <div class="section-header">
+        <h2>成功案例分析</h2>
+        <a href="#" class="view-all">查看全部</a>
+      </div>
+      
+      <div class="case-study-container">
+        <div class="case-study-card">
+          <div class="case-header">
+            <div class="student-avatar">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="student-info">
+              <h3 class="student-name">王同学</h3>
+              <div class="student-result">斯坦福大学 | 计算机科学</div>
+            </div>
+          </div>
+          <div class="case-content">
+            <div class="key-achievement">
+              <div class="achievement-label">核心亮点</div>
+              <div class="achievement-value">数学建模竞赛获奖 + 计算机研究项目</div>
+            </div>
+            <div class="case-preview">
+              王同学通过系统性的计算机科学学习和参与多个AI相关竞赛，最终获得两所常青藤大学和斯坦福的录取。关键因素是他在高二建立的个人编程项目...
+            </div>
+            <div class="case-tags">
+              <span class="case-tag">计算机科学</span>
+              <span class="case-tag">科研</span>
+              <span class="case-tag">竞赛</span>
+            </div>
+            <button class="btn-primary case-btn">查看详情</button>
+          </div>
+        </div>
+        
+        <div class="case-study-card">
+          <div class="case-header">
+            <div class="student-avatar">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="student-info">
+              <h3 class="student-name">张同学</h3>
+              <div class="student-result">哈佛大学 | 经济学</div>
+            </div>
+          </div>
+          <div class="case-content">
+            <div class="key-achievement">
+              <div class="achievement-label">核心亮点</div>
+              <div class="achievement-value">公益创业项目 + 经济学研究</div>
+            </div>
+            <div class="case-preview">
+              张同学从高一开始创办帮助农村地区教育的公益项目，该项目最终覆盖5个省份15所乡村学校。她的经济学研究探讨了提高农村教育质量的经济有效模式...
+            </div>
+            <div class="case-tags">
+              <span class="case-tag">社会创新</span>
+              <span class="case-tag">领导力</span>
+              <span class="case-tag">经济学</span>
+            </div>
+            <button class="btn-primary case-btn">查看详情</button>
+          </div>
+        </div>
+        
+        <div class="case-study-card">
+          <div class="case-header">
+            <div class="student-avatar">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="student-info">
+              <h3 class="student-name">李同学</h3>
+              <div class="student-result">麻省理工 | 生物工程</div>
+            </div>
+          </div>
+          <div class="case-content">
+            <div class="key-achievement">
+              <div class="achievement-label">核心亮点</div>
+              <div class="achievement-value">生物研究论文发表 + 国际竞赛金奖</div>
+            </div>
+            <div class="case-preview">
+              李同学在高中期间参与了真实的大学实验室研究，并作为共同作者发表了一篇研究论文。她还获得了国际生物学奥林匹克竞赛的金牌，展示了她在生物领域的深厚知识...
+            </div>
+            <div class="case-tags">
+              <span class="case-tag">生物医学</span>
+              <span class="case-tag">科研</span>
+              <span class="case-tag">国际竞赛</span>
+            </div>
+            <button class="btn-primary case-btn">查看详情</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <div class="nav-label">首页</div>
+    </a>
+    <a href="advisor.html" class="nav-item">
+      <i class="fas fa-comment-dots"></i>
+      <div class="nav-label">智慧顾问</div>
+    </a>
+    <a href="story-system.html" class="nav-item">
+      <i class="fas fa-book"></i>
+      <div class="nav-label">成长叙事</div>
+    </a>
+    <a href="deliverables.html" class="nav-item">
+      <i class="fas fa-file-alt"></i>
+      <div class="nav-label">教育攻略</div>
+    </a>
+    <a href="abroad-advisor.html" class="nav-item">
+      <i class="fas fa-globe-asia"></i>
+      <div class="nav-label">留学军师</div>
+    </a>
+    <a href="explore.html" class="nav-item active">
+      <i class="fas fa-compass"></i>
+      <div class="nav-label">探索</div>
+    </a>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Category tab switching
+      const categoryTabs = document.querySelectorAll('.category-tab');
+      categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          categoryTabs.forEach(t => t.classList.remove('active'));
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // In a real app, this would filter content based on the selected category
+        });
+      });
+    });
+  </script>
+</body>
+</html> 
